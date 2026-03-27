@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aniket Mukherjee | Creative Technologist & Systems Architect</title>
+    <title>Aniket Mukherjee | Senior Associate & Systems Architect</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟢</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,18 +33,24 @@
         .text-dim { color: var(--text-dim); }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
-        section { padding: 8rem 0; border-bottom: 1px solid var(--border); }
+        section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
 
-               /* Nav */
+        /* Nav */
         nav { padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .brand-name { font-size: 1.25rem; font-weight: 700; }
         .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text-main); }
 
         /* Hero */
-        .hero { padding: 5rem 0 6rem; }
-        .hero h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 600; line-height: 1.05; margin: 1.5rem 0; letter-spacing: -0.03em; }
-        .hero p { font-size: 1.25rem; color: var(--text-dim); max-width: 700px; margin-bottom: 3rem; }
+        .hero { padding: 4rem 0 5rem; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 600; line-height: 1.1; margin: 1.5rem 0; letter-spacing: -0.03em; }
+        .hero p { font-size: 1.2rem; color: var(--text-dim); max-width: 750px; margin-bottom: 3rem; }
+
+        /* Tech Stack Section */
+        .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .stack-item { border-left: 1px solid var(--border); padding-left: 1.5rem; }
+        .stack-item strong { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-size: 0.9rem; }
+        .stack-item p { font-size: 0.85rem; color: var(--text-dim); }
 
         /* Buttons */
         .btn { display: inline-block; padding: 1rem 2rem; background: var(--text-main); color: var(--bg); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.2s; }
@@ -62,10 +68,13 @@
         .cs-header { border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2rem; }
         .cs-header h3 { font-size: 1.75rem; font-weight: 500; margin-top: 0.5rem; }
         .cs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-        .cs-block strong { display: block; margin-bottom: 0.5rem; color: var(--text-dim); }
+        .cs-block strong { display: block; margin-bottom: 0.5rem; color: var(--text-main); }
+        .cs-block p { color: var(--text-dim); font-size: 0.95rem; }
         .cs-insight { padding: 1.5rem; border-left: 2px solid var(--accent); background: var(--accent-dim); margin-top: 2rem; }
-        .cs-impact { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: baseline; gap: 1rem; }
-        .impact-number { font-size: 3rem; font-weight: 600; color: var(--accent); line-height: 1; }
+        .cs-impact { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .cs-impact ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+        .cs-impact li strong { color: var(--accent); font-size: 1.2rem; display: block; }
+        .cs-impact li span { color: var(--text-dim); font-size: 0.8rem; }
 
         /* Process Grid */
         .process-list { list-style: none; counter-reset: process-counter; }
@@ -93,6 +102,7 @@
             .cs-grid { grid-template-columns: 1fr; gap: 2rem; }
             .case-study { padding: 1.5rem; }
             .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .cs-impact ul { grid-template-columns: 1fr; gap: 1rem; }
         }
     </style>
 </head>
@@ -111,12 +121,28 @@
 
     <main class="container">
         <section class="hero">
-            <span class="mono section-label">Senior Associate & Studio Lead</span>
-            <h1>Architecting AI-Powered <br><span class="text-accent">Creative Pipelines.</span></h1>
-            <p>I build the algorithmic infrastructure that scales global broadcast storytelling. Bridging 17+ years of high-end motion design with custom LLM automation to create at the speed of thought.</p>
-            <div>
-                <a href="#systems" class="btn mono">Examine Case Studies</a>
-                <a href="#process" class="btn btn-outline mono">View Methodology</a>
+            <span class="mono section-label">Senior Associate // Media Production</span>
+            <h1>I build scalable <span class="text-accent">media systems</span> that drive creative operations.</h1>
+            <p>I bridge the gap between creative vision and operational logic—turning complex production workflows into clear, high-impact systems that scale with business needs.</p>
+            
+            <div class="stack-grid mono">
+                <div class="stack-item">
+                    <strong>Languages & AI</strong>
+                    <p>Python, DeepFilterNet, Claude (AI-Assisted Dev)</p>
+                </div>
+                <div class="stack-item">
+                    <strong>Media Processing</strong>
+                    <p>FFmpeg, Adobe Premiere Pro, Adobe Audition</p>
+                </div>
+                <div class="stack-item">
+                    <strong>Architecture</strong>
+                    <p>Terminal/CLI, Automation, Cross-Platform Flow</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem;">
+                <a href="#systems" class="btn mono">Examine Systems</a>
+                <a href="#experience" class="btn btn-outline mono">Experience Log</a>
             </div>
         </section>
 
@@ -127,72 +153,81 @@
             <div class="case-study">
                 <div class="cs-header">
                     <span class="mono text-dim">sys.id_01</span>
-                    <h3>Automating Global Subtitle Localization</h3>
+                    <h3>Resolving Workflow Bottlenecks with Custom Tooling</h3>
                 </div>
                 <div class="cs-grid">
                     <div class="cs-block">
                         <strong class="mono">The Problem</strong>
-                        <p class="text-dim">Manual subtitle conversion across 12+ broadcast formats was consuming 40% of post-production time for global campaigns.</p>
+                        <p>Our production team faced a persistent incompatibility bottleneck: Adobe Premiere exports subtitles as .srt, but our hosting platform (SharePoint) strictly requires .vtt. This forced a tedious, manual conversion process for every project.</p>
                     </div>
                     <div class="cs-block">
-                        <strong class="mono">The Solution & Execution</strong>
-                        <p class="text-dim">Built a custom Python/Claude-powered subtitle converter parsing raw transcripts to SRT, VTT, SCC, XML instantly. Integrated LLM logic to handle line-breaks and character constraints per platform.</p>
+                        <strong class="mono">The Execution</strong>
+                        <p>I built a custom, standalone macOS application using an AI-assisted Python workflow. The tool features a frictionless UI where users simply load files and convert instantly, handling bi-directional conversion with zero learning curve.</p>
                     </div>
                 </div>
                 <div class="cs-insight mono">
-                    Insight: Subtitling isn't a creative task; it's a data-mapping problem.
+                    Insight: Automation turns a data-mapping chore into a non-event.
                 </div>
                 <div class="cs-impact">
-                    <div class="impact-number">92%</div>
-                    <p class="text-dim mono">Reduction in turnaround time.<br>Est. $45k/year vendor savings.</p>
+                    <ul class="mono">
+                        <li><strong>95%</strong> <span>Reduction in turnaround time</span></li>
+                        <li><strong>Instant</strong> <span>File compatibility</span></li>
+                        <li><strong>Frictionless</strong> <span>Adoption across team</span></li>
+                    </ul>
                 </div>
             </div>
 
             <div class="case-study">
                 <div class="cs-header">
                     <span class="mono text-dim">sys.id_02</span>
-                    <h3>Cloud-Native Compression Pipeline</h3>
+                    <h3>Standardizing Delivery & Mitigating Dependencies</h3>
                 </div>
                 <div class="cs-grid">
                     <div class="cs-block">
                         <strong class="mono">The Problem</strong>
-                        <p class="text-dim">Non-technical stakeholders struggling with bitrates and codecs, leading to failed uploads or degraded brand quality.</p>
+                        <p>Large video assets required compression for online transfer, but we lacked a standardized enterprise tool. Relying on a patchwork of external third-party apps introduced workflow inconsistencies and security gray areas.</p>
                     </div>
                     <div class="cs-block">
-                        <strong class="mono">The Solution & Execution</strong>
-                        <p class="text-dim">Developed an automated compression tool using FFmpeg wrapped in a Claude-architected interface. Created "one-click" presets optimizing for LinkedIn, Broadcast, and Internal Hubs.</p>
+                        <strong class="mono">The Execution</strong>
+                        <p>I engineered a custom, terminal-based compressor using Python and FFmpeg. The system takes any video input and automatically encodes it into a highly optimized, web-ready .mp4, ensuring output quality is enforced by the pipeline.</p>
                     </div>
                 </div>
                 <div class="cs-insight mono">
-                    Insight: Creative quality should be enforced by the pipeline, not the user.
+                    Insight: Secure, internal utilities eliminate the risks of legacy freeware.
                 </div>
                 <div class="cs-impact">
-                    <div class="impact-number">500+</div>
-                    <p class="text-dim mono">Assets delivered in Q3 with zero failures.<br>60% average file size reduction.</p>
+                    <ul class="mono">
+                        <li><strong>Zero</strong> <span>External tool dependency</span></li>
+                        <li><strong>100%</strong> <span>Standardized outputs</span></li>
+                        <li><strong>Secure</strong> <span>Local-only processing</span></li>
+                    </ul>
                 </div>
             </div>
 
             <div class="case-study">
                 <div class="cs-header">
                     <span class="mono text-dim">sys.id_03</span>
-                    <h3>The Neural Audio Suite</h3>
+                    <h3>AI-Powered Audio Enhancement Suite</h3>
                 </div>
                 <div class="cs-grid">
                     <div class="cs-block">
                         <strong class="mono">The Problem</strong>
-                        <p class="text-dim">High-stakes executive interviews recorded in non-treated environments required hours of manual EQ and spectral repair.</p>
+                        <p>Lacking access to high-end automated AI cleanup, all noisy audio required hours of manual repair in Adobe Audition. This created a significant lag in delivery for executive interviews and high-stakes content.</p>
                     </div>
                     <div class="cs-block">
-                        <strong class="mono">The Solution & Execution</strong>
-                        <p class="text-dim">Custom workflow integrating ElevenLabs and Adobe Podcast APIs to "re-skin" damaged audio. Claude scripts handle batch processing, normalizing loudness to -14 LUFS automatically.</p>
+                        <strong class="mono">The Execution</strong>
+                        <p>Leveraging DeepFilterNet and Python, I built an enhancement tool that runs through the terminal. Crucially, I added a variable slider for granular control, allowing users to dial in the exact level of AI cleanup needed.</p>
                     </div>
                 </div>
                 <div class="cs-insight mono">
-                    Insight: Audio clarity is the primary driver of perceived production value.
+                    Insight: AI is most powerful when paired with human creative control.
                 </div>
                 <div class="cs-impact">
-                    <div class="impact-number">80%</div>
-                    <p class="text-dim mono">Faster audio cleanup.<br>Enabled same-day delivery for C-suite comms.</p>
+                    <ul class="mono">
+                        <li><strong>80%</strong> <span>Faster audio cleanup</span></li>
+                        <li><strong>Granular</strong> <span>Creative control</span></li>
+                        <li><strong>Enabled</strong> <span>Same-day delivery</span></li>
+                    </ul>
                 </div>
             </div>
 
@@ -209,7 +244,6 @@
             </p>
 
             <div class="cs-grid">
-                
                 <div class="case-study" style="padding: 1.5rem;">
                     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; border: 1px solid var(--border); background: #000;">
                         <iframe src="https://player.vimeo.com/video/1114770080?color=ffffff&title=0&byline=0&portrait=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
@@ -229,7 +263,6 @@
                         <span class="mono text-dim">PwC Studio Output</span>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -242,11 +275,11 @@
             <ul class="process-list">
                 <li>
                     <h4>Audit</h4>
-                    <p class="text-dim">Mapping the current "friction points" in the creative lifecycle to identify compressible bottlenecks.</p>
+                    <p class="text-dim">Mapping current friction points in the creative lifecycle to identify compressible bottlenecks.</p>
                 </li>
                 <li>
                     <h4>Architect</h4>
-                    <p class="text-dim">Designing the logic before the build—structuring LLM prompts, API integrations, and Python scripts.</p>
+                    <p class="text-dim">Designing the logic before the build—structuring LLM prompts, API integrations, and scripts.</p>
                 </li>
                 <li>
                     <h4>Prototype</h4>
@@ -254,27 +287,23 @@
                 </li>
                 <li>
                     <h4>Deploy</h4>
-                    <p class="text-dim">Integrating the tool seamlessly into the team's existing UI (Slack, Web, or Desktop) for zero-friction adoption.</p>
-                </li>
-                <li>
-                    <h4>Iterate</h4>
-                    <p class="text-dim">Monitoring token usage, script speed, and creative feedback to ensure systems scale without accumulating debt.</p>
+                    <p class="text-dim">Integrating the tool seamlessly into the team's existing workflow for zero-friction adoption.</p>
                 </li>
             </ul>
         </section>
 
-                       <section id="experience">
+        <section id="experience">
             <span class="mono section-label">// Career Architecture</span>
             <h2>Experience Log</h2>
 
             <div class="exp-item">
-                <div class="mono text-dim">2024 — Present<br><span class="text-main">PwC AC Kolkata</span></div>
+                <div class="mono text-dim">2024 — Present<br><span class="text-main">PwC SDC Kolkata</span></div>
                 <div>
-                    <h4>Senior Associate & Studio Lead</h4>
+                    <h4>Senior Associate // Media Production</h4>
                     <ul>
-                        <li>Lead the end-to-end creative lifecycle for high-stakes Global L&D initiatives.</li>
-                        <li>Established a high-velocity, autonomous production model bypassing internal bottlenecks.</li>
-                        <li>Pioneering GenAI workflows to shift focus from volume-based execution to high-value strategic storytelling.</li>
+                        <li>Lead the end-to-end creative lifecycle for high-stakes Global initiatives.</li>
+                        <li>Building autonomous production models to bypass legacy internal bottlenecks.</li>
+                        <li>Pioneering GenAI workflows to shift focus from volume-based execution to strategic storytelling.</li>
                     </ul>
                 </div>
             </div>
@@ -285,8 +314,7 @@
                     <h4>Creative Lead (UK Video & Animation)</h4>
                     <ul>
                         <li>Led a 12-member offshore team delivering 300+ global assets annually.</li>
-                        <li>Directly contributed to PwC winning 'In-House Agency of the Year 2021' (IHAF).</li>
-                        <li>Managed annual budgeting, forecasting, and rigorous QA protocols.</li>
+                        <li>Contributed to winning 'In-House Agency of the Year 2021' (IHAF).</li>
                     </ul>
                 </div>
             </div>
@@ -296,49 +324,16 @@
                 <div>
                     <h4>Senior Motion Designer & Pipeline Architect</h4>
                     <ul>
-                        <li>Founding member of the team; architected the server structure and reusable template libraries.</li>
-                        <li>Built a proprietary music library, eliminating 100% of external stock audio licensing costs.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="mono text-dim">2015 — 2016<br><span class="text-main">CNN News18 (Network18)</span></div>
-                <div>
-                    <h4>Broadcast Graphic Designer</h4>
-                    <ul>
-                        <li>Executed live Vizrt graphics playout for national breaking news broadcasts.</li>
-                        <li>Operated within a high-stakes, 24/7 zero-error live television environment.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="mono text-dim">2008 — 2015<br><span class="text-main">Foundational Broadcast</span></div>
-                <div>
-                    <h4>Motion & Graphic Designer</h4>
-                    <ul>
-                        <li>Delivered high-volume motion graphics and broadcast packaging for Focus Bangla and Bent Cigarette Productions.</li>
-                        <li>Mastered the technical and creative fundamentals of timeline execution and rapid-turnaround storytelling.</li>
+                        <li>Founding member; architected the server structure and reusable template libraries.</li>
+                        <li>Built a proprietary music library, eliminating 100% of external stock licensing costs.</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-                        <footer style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; text-align: center; padding: 2rem 0;">
+        <footer style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; text-align: center; padding: 2rem 0;">
             <div class="mono text-dim" style="white-space: nowrap;">sys.status: <span class="text-accent">ONLINE</span></div>
             
             <div class="mono" style="display: flex; gap: 2rem; justify-content: center;">
                 <a href="https://linkedin.com/in/aniket86" target="_blank" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">[LINKEDIN]</a>
-                <a href="Final CV 2026_CT.pdf" target="_blank" style="color: var(--accent); text-decoration: none;">[DOWNLOAD_CV.pdf]</a>
-            </div>
-
-            <div class="mono text-dim" style="white-space: nowrap;">© 2026 Aniket Mukherjee</div>
-        </footer>
-
-    </main>
-
-</body>
-</html>
-
-    
+            
