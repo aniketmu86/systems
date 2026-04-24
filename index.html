@@ -96,11 +96,6 @@
         h2 { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 2rem; letter-spacing: -0.02em; }
         .section-label { color: var(--accent); margin-bottom: 1rem; display: block; }
 
-        /* Grid Layouts */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        
-        /* Cards */
         .card { padding: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
         .card-featured { border: 1px solid var(--accent); background: var(--accent-dim); margin-bottom: 2rem; }
         .card h3 { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 500; }
@@ -108,7 +103,6 @@
         .card li { color: var(--text-dim); margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; font-size: 0.95rem; }
         .card li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
 
-        /* Featured Case Study Specifics */
         .flagship-study { border: 1px solid var(--accent); background: var(--surface); padding: 3rem; position: relative; overflow: hidden; }
         .flagship-study::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
         .study-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-top: 2rem; }
@@ -117,19 +111,16 @@
         .metric strong { font-size: 1.5rem; color: var(--accent); }
         .metric span { font-size: 0.85rem; color: var(--text-dim); }
 
-        /* Secondary Study */
         .secondary-study { margin-top: 4rem; padding-top: 4rem; border-top: 1px dashed var(--border); }
 
-        /* Tech Stack Tags */
-        .tech-category { margin-bottom: 2rem; }
-        .tech-category h4 { margin-bottom: 1rem; color: var(--text-main); font-weight: 500; }
-        .tags { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-        .tag { padding: 0.4rem 1rem; background: var(--surface); border: 1px solid var(--border); font-size: 0.85rem; color: var(--text-dim); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+
+        .tag { padding: 0.4rem 1rem; background: var(--surface); border: 1px solid var(--border); font-size: 0.85rem; color: var(--text-dim); margin-right: 0.5rem; margin-bottom: 0.5rem; display: inline-block; }
 
         .contact-cta { text-align: center; padding: 4rem 2rem; background: var(--surface); border: 1px solid var(--border); margin: 2rem 0; }
         
         footer { padding: 4rem 0; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
-        .footer-links { display: flex; gap: 2rem; }
 
         @media (max-width: 768px) {
             body { padding-top: 8rem; } 
@@ -141,7 +132,6 @@
             .grid-2, .grid-3, .study-grid { grid-template-columns: 1fr; gap: 2rem; }
             .flagship-study { padding: 2rem; }
             .study-metrics { flex-direction: column; gap: 1rem; }
-            footer { flex-direction: column; gap: 2rem; text-align: center; }
         }
     </style>
 </head>
@@ -234,10 +224,13 @@
                 <div class="study-grid">
                     <div>
                         <h4 class="mono text-dim" style="margin-bottom: 0.5rem;">The Problem</h4>
-                        <p style="margin-bottom: 2rem;">Manual enterprise subtitling workflows were slow, highly error-prone, and lacked standardized brand formatting, requiring constant human oversight.</p>
+                        <p style="margin-bottom: 1rem;">Manual enterprise subtitling workflows were slow, highly error-prone, and lacked standardized brand formatting, requiring constant human oversight.</p>
                         
                         <h4 class="mono text-dim" style="margin-bottom: 0.5rem;">The Solution</h4>
                         <p>Designed an AI-orchestrated pipeline integrating Whisper with a Python control layer and a custom validation engine to fully automate generation and QC.</p>
+                        <p class="text-dim" style="margin-top: 1rem; font-size: 0.9rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <strong>Constraint:</strong> The system had to run fully offline with zero external dependencies due to enterprise IT restrictions, which significantly shaped architecture and packaging decisions.
+                        </p>
                     </div>
                     <div>
                         <div class="card" style="background: var(--bg); padding: 1.5rem;">
@@ -257,8 +250,8 @@
 
                 <div class="study-metrics mono">
                     <div class="metric">
-                        <strong>~60%</strong>
-                        <span>Est. Manual Time Saved</span>
+                        <strong>Observed</strong>
+                        <span>Significant Effort Reduction</span>
                     </div>
                     <div class="metric">
                         <strong>Zero NLE</strong>
@@ -271,9 +264,8 @@
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h4 class="mono text-dim" style="margin-bottom: 0.5rem;">My Role</h4>
-                    <p class="text-dim">Designed the system architecture • Built the orchestration logic • Defined the invisible QC validation framework.</p>
-                    <p class="text-dim" style="margin-top: 1rem;">This project reflects my approach: identify a broken workflow, define a system around it, and ship a working tool rather than a conceptual solution.</p>
+                    <h4 class="mono text-dim" style="margin-bottom: 0.5rem;">Key Design Decision</h4>
+                    <p class="text-dim">I prioritized <strong>deterministic validation</strong> over raw AI output quality. By building a verification layer that flags hallucination or sync drift, I ensured the tool remained trustworthy for enterprise-grade production.</p>
                 </div>
 
                 <div style="margin-top: 2rem;">
@@ -285,11 +277,11 @@
                 <span class="mono section-label">// Secondary Execution (Pattern Proof)</span>
                 <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">AVTOOLS | Modular Media Automation System</h3>
                 <p class="text-dim" style="max-width: 800px; margin-bottom: 1rem;">Built a standalone desktop system integrating AI audio cleanup (DeepFilterNet3) and automated project structuring to streamline repetitive media preprocessing tasks across enterprise teams.</p>
-                <p class="text-dim" style="margin-bottom: 2rem;">This was built after Subtitle Studio, reinforcing a repeatable pattern of identifying workflow friction and shipping targeted automation tools.</p>
+                <p class="text-dim" style="margin-bottom: 2rem;">This reinforces a repeatable pattern of identifying workflow friction and shipping targeted automation tools rather than just conceptual solutions.</p>
                 
                 <div class="study-metrics mono" style="margin-top: 0; padding-top: 0; border-top: none;">
                     <div class="metric">
-                        <strong>>90%</strong>
+                        <strong>Validated</strong>
                         <span>Preprocessing Time Reduced</span>
                     </div>
                     <div class="metric">
@@ -307,8 +299,6 @@
         <section id="approach" class="reveal">
             <span class="mono section-label">// Operating Principles</span>
             <h2>My Approach to Systems Design</h2>
-            <p class="text-dim" style="max-width: 700px; margin-bottom: 2rem;"> These principles are not theoretical—they are derived from building and shipping real systems under constraints like offline deployment, packaging limitations, and enterprise usability. </p>
-
             <div class="grid-2">
                 <div class="card">
                     <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">01. Systems > Screens</h3>
@@ -356,10 +346,10 @@
             <h2>About Me</h2>
             <div style="max-width: 800px;">
                 <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--text-main);">
-                    I’m a systems-focused builder transitioning a 17-year career in enterprise broadcast and post-production into AI-driven software creation.
+                    I’m a systems-focused builder with a background in enterprise broadcast and post-production, now focused on designing and shipping AI-driven workflow tools.
                 </p>
                 <p class="text-dim" style="margin-bottom: 1.5rem;">
-                    Currently serving as a Senior Associate and Studio Lead at PwC, I specialize in identifying inefficient legacy workflows and replacing them with scalable, automated systems. I combine deep domain expertise with AI orchestration to build tools that eliminate production bottlenecks.
+                    My edge comes from working inside high-pressure production environments where inefficiency has a real financial and operational cost. I specialize in identifying fragile, manual workflows and replacing them with structured, reliable systems that teams can actually use.
                 </p>
                 
                 <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
