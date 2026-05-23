@@ -122,6 +122,13 @@
             margin-right: 12px;
         }
 
+        .download-note {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-dim);
+        }
+
         .contact-cta { text-align: center; padding: 4rem 2rem; background: var(--surface); border: 1px solid var(--border); margin: 2rem 0; }
         footer { padding: 4rem 0; display: flex; justify-content: center; align-items: center; border-top: 1px solid var(--border); }
 
@@ -278,38 +285,47 @@
             </div>
         </section>
 
-        <!-- NEW SECTION: Subtitle Studio Engineering Documents (cleaned) -->
+        <!-- Subtitle Studio Engineering Documentation (no source code – only public artifacts) -->
         <section id="docs" class="reveal">
             <span class="mono section-label">// Open Engineering</span>
             <h2>Subtitle Studio – Artifacts</h2>
-            <p class="text-dim" style="margin-bottom: 2rem;">The full engineering roadmap, development journal, and source code. Demonstrates end‑to‑end product ownership, release discipline, and systems thinking.</p>
+            <p class="text-dim" style="margin-bottom: 2rem;">The engineering roadmap and development journal. Demonstrates product thinking, release discipline, and systems architecture.</p>
 
             <div class="grid-2">
                 <div class="card">
                     <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">📄 Product & Process</h3>
-                    <a href="subtitle-studio-docs/PROJECT_README.md" target="_blank" class="doc-link">
+                    <a href="subtitle-studio-docs/PROJECT_README.md" download="PROJECT_README.md" class="doc-link">
                         <span class="doc-icon">📖</span> PROJECT_README.md – Why this exists
                     </a>
-                    <a href="subtitle-studio-docs/V6_ROADMAP.md" target="_blank" class="doc-link">
+                    <a href="subtitle-studio-docs/V6_ROADMAP.md" download="V6_ROADMAP.md" class="doc-link">
                         <span class="doc-icon">🗺️</span> V6_ROADMAP.md – Product priorities & packages
                     </a>
-                    <a href="subtitle-studio-docs/DEV_JOURNAL.md" target="_blank" class="doc-link">
+                    <a href="subtitle-studio-docs/DEV_JOURNAL.md" download="DEV_JOURNAL.md" class="doc-link">
                         <span class="doc-icon">📓</span> DEV_JOURNAL.md – Engineering decisions & release notes
                     </a>
-                    <a href="subtitle-studio-docs/subtitle_studio_ui_preview.png" target="_blank" class="doc-link">
+                    <a href="subtitle-studio-docs/subtitle_studio_ui_preview.png" download="subtitle_studio_ui_preview.png" class="doc-link">
                         <span class="doc-icon">🖼️</span> UI Preview – Edit tab screenshot
                     </a>
                 </div>
                 <div class="card">
-                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">💻 Code & Architecture</h3>
-                    <a href="subtitle-studio-docs/PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt" target="_blank" class="doc-link">
-                        <span class="doc-icon">📑</span> Code Manifest – All 53 source files
-                    </a>
-                    <a href="subtitle-studio-docs/PROJECT_CODE_EXPORT_CLEAN_PART_001.txt" target="_blank" class="doc-link">
-                        <span class="doc-icon">🐍</span> Full Source Code – Python, UI, export engine
-                    </a>
-                    <p class="text-dim" style="font-size: 0.8rem; margin-top: 1rem;">⬤ Built with Nuitka, PyAV, pyrnnoise, MPV<br>⬤ 100% air‑gapped, no cloud dependencies<br>⬤ Raw session logs also available on request</p>
+                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">🏗️ Architecture Highlights</h3>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        • Air‑gapped, Nuitka‑compiled Windows app<br>
+                        • Local AI vocal isolation (pyrnnoise)<br>
+                        • MPV preview backend with external audio switching<br>
+                        • Custom ASS subtitle burner (merged backgrounds)<br>
+                        • Multi‑output export planner (video + audio + subtitles)<br>
+                        • Full test suite + smoke tests + runtime manifest
+                    </p>
+                    <p class="text-dim" style="font-size: 0.8rem; margin-top: 1rem;">
+                        ⬤ Built for enterprise air‑gapped environments<br>
+                        ⬤ Source code is proprietary to my employer and not shared publicly.<br>
+                        ⬤ The documentation above shows my systems thinking and release discipline.
+                    </p>
                 </div>
+            </div>
+            <div class="download-note">
+                ⬇️ Tap any link to download the file directly to your device.
             </div>
         </section>
 
