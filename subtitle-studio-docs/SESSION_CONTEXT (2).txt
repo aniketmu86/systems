@@ -1,0 +1,2449 @@
+SESSION UPDATE - 2026-05-18 - V5.0.1 HOTFIX PACKAGE + V6 ROADMAP UPDATE
+=======================================================================
+
+Project: Subtitle Studio
+Current release track: v5.0.1 replacement hotfix package / v6 polish preparation
+Current Git branch: v5-finalization
+Current Git HEAD before this context update: 079327d1
+
+CURRENT STATE
+-------------
+
+Working tree was clean after committing the v6 roadmap update.
+
+Current important commits:
+
+- 079327d1 Update v6 roadmap after v5.0.1 hotfix
+- 981556d9 Isolate launcher in ship package
+- 49df56f3 Fix burned subtitle quote and background rendering
+- 12e29771 Update session context after v6 roadmap
+- 6ca5cc2b Add v6 roadmap
+
+V5.0.1 HOTFIX SUMMARY
+---------------------
+
+A v5.0.1 replacement hotfix package was prepared to replace the previous v5 package.
+
+Two major fixes were completed before continuing broader v6 development:
+
+1. Burned subtitle quote/background rendering hotfix
+2. Clean user-facing launcher isolation
+
+BURNED SUBTITLE RENDERING HOTFIX
+--------------------------------
+
+Commit:
+
+- 49df56f3 Fix burned subtitle quote and background rendering
+
+Files changed:
+
+- tabs/tab_export.py
+
+Confirmed behavior:
+
+- Burned/exported video subtitles now use correct opening and closing curly double quotes.
+- Burned/exported video subtitles now use correct opening and closing curly single quotes.
+- Apostrophes in contractions and possessives are curly apostrophes.
+- Smart typography is export-only and does not mutate editor subtitle text.
+- Multi-line burned subtitle backgrounds are now one merged square-corner shape.
+- Transparent per-line background overlap has been eliminated.
+- T-shaped and inverted-T-shaped backgrounds work depending on line widths.
+- Text is vertically centered inside the background shape.
+- Padding was visually tuned and approved.
+- Left, center, and right subtitle alignment were confirmed working.
+
+Important implementation knowhow:
+
+- Burned subtitle ASS rendering now uses:
+  - Layer 0: merged vector background shape
+  - Layer 1: positioned subtitle text
+- Do not return to ASS per-line boxed backgrounds using BorderStyle=4.
+- Do not add rounded corners unless explicitly requested.
+- Important functions in tabs/tab_export.py include:
+  - _smart_curly_quotes
+  - _ass_escape_text
+  - _estimate_ass_text_width
+  - _line_background_rect
+  - _merged_rect_union_points
+  - _ass_draw_path
+  - _write_current_subs_to_temp
+
+Regression test text for future export-related changes:
+
+"Hello," she said.
+'Hello,' he replied.
+It's John's file.
+He said, "It's called 'Subtitle Studio.'"
+
+"This is the wider top line"
+short bottom
+
+short top
+"This is the much wider bottom line"
+
+"First quoted line"
+"Second quoted line"
+
+Expected quote rendering:
+
+“Hello,” she said.
+‘Hello,’ he replied.
+It’s John’s file.
+He said, “It’s called ‘Subtitle Studio.’”
+
+Expected visual rendering:
+
+- No overlapping transparent subtitle boxes
+- Two-line subtitles use one square-corner merged stepped background shape
+- Top wider line creates T-shaped box
+- Bottom wider line creates inverted-T-shaped box
+- Text remains vertically centered
+- Padding remains visually uniform
+- Left, center, and right alignment work
+
+LAUNCHER ISOLATION HOTFIX
+-------------------------
+
+Commit:
+
+- 981556d9 Isolate launcher in ship package
+
+Files changed:
+
+- make_ship_package.ps1
+
+The planned v6 clean launcher/release-folder work was pulled forward into v5.0.1.
+
+Implemented package layout:
+
+SubtitleStudio_v5.0.1_ship_<timestamp>\
+    Start Subtitle Studio.bat
+    README_FIRST.txt
+    app\
+        SubtitleStudio.exe
+        runtime files/folders
+    _release_docs\
+        release documentation
+
+Important packaging rule:
+
+- Do not change build_nuitka.ps1.
+- build_nuitka.ps1 remains the authoritative Nuitka build script.
+- make_ship_package.ps1 creates the clean user-facing ship folder.
+- The Nuitka launcher.dist runtime layout is copied intact into app\.
+
+Known acceptable behavior:
+
+- The BAT launcher briefly shows a command prompt window.
+- This is accepted for v5.0.1 because it is much better UX than requiring users to find the EXE among runtime files.
+- Future optional polish could replace the BAT launcher with a silent VBS or tiny compiled launcher, but do not do this unless specifically requested.
+
+PACKAGED APP SMOKE EVIDENCE
+---------------------------
+
+The isolated package was run from the release folder.
+
+Confirmed runtime paths resolved under app\:
+
+- ffmpeg:
+  release\...\app\bin\windows\ffmpeg.exe
+- ffprobe:
+  release\...\app\bin\windows\ffprobe.exe
+
+Confirmed packaged-app behavior:
+
+- MPV diagnostics OK
+- MPV preview backend OK
+- Video load OK
+- Source audio extraction OK
+- Waveform generation OK
+- Premium pyrnnoise enhancement OK
+- FFmpeg light polish OK
+- Enhanced waveform reload OK
+- Playhead reset after audio enhancement OK
+- IN mark OK
+- OUT mark OK
+- Section creation OK
+
+Observed successful log evidence included:
+
+[OK] MPV diagnostics: python-mpv available; using mpv-2.dll.
+[OK] Using MPV preview backend.
+[OK] ffmpeg: ...\app\bin\windows\ffmpeg.exe
+[OK] ffprobe: ...\app\bin\windows\ffprobe.exe
+[OK] MPV playback ready.
+[OK] Source audio ready for waveform
+[OK] Waveform loaded.
+[OK] pyrnnoise stage complete using denoise_chunk.
+[OK] pyrnnoise light polish complete.
+[OK] Enhanced audio ready
+[OK] Enhanced waveform loaded.
+Mark IN
+Mark OUT
+Added Section 1
+
+V6 ROADMAP UPDATE
+-----------------
+
+Commit:
+
+- 079327d1 Update v6 roadmap after v5.0.1 hotfix
+
+Files changed:
+
+- V6_ROADMAP.md
+
+The roadmap now records:
+
+- v5.0.1 hotfix package status
+- burned subtitle quote/background rendering implementation knowhow
+- merged ASS background shape model
+- no rounded corners unless explicitly requested
+- launcher isolation completed early in v5.0.1
+- BAT command flash accepted for v5.0.1
+- packaging rule: do not change build_nuitka.ps1
+- v6 Package G2 marked as completed early
+- burned subtitle rendering regression test cases
+- v6 Package A remains the next development step
+
+NEXT DEVELOPMENT STEP
+---------------------
+
+Before coding v6 Package A, do a read-only implementation map for frame/time handling.
+
+Inspect:
+
+- core/ffmpeg.py
+- core/state.py
+- core/parser.py
+- tabs/tab_edit.py
+
+Goal:
+
+- Map how video FPS is currently probed/stored
+- Map how timecodes are parsed/formatted
+- Map where user time edits are applied
+- Design exact minimal implementation plan for frame-aware timecode support
+
+No v6 Package A code should be changed until the implementation map is approved.
+
+HANDOFF REQUIREMENTS
+--------------------
+
+At handoff, regenerate the clean project export:
+
+- PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+- PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+- Additional parts if manifest reports them
+
+Required files for next session:
+
+- SESSION_CONTEXT.txt
+- V6_ROADMAP.md
+- PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+- PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+
+================================================================================
+
+SESSION UPDATE - 2026-05-15 - V6 ROADMAP CREATED
+=================================================
+
+Project: Subtitle Studio
+Current release track: v5.0 ship candidate / v6 polish preparation
+Current Git branch: v5-finalization
+Current Git HEAD before this context update: 6ca5cc2b
+
+ROADMAP STATUS
+--------------
+
+V6_ROADMAP.md was created and committed.
+
+Roadmap commit:
+
+- 6ca5cc2b Add v6 roadmap
+
+The roadmap captures the agreed v6 direction:
+
+- Precision first
+- Preview trust second
+- Workflow polish third
+- Packaging last
+
+Major v6 packages:
+
+1. Frame / Timecode Foundation
+2. Subtitle Preview Reliability
+3. Subtitle Bin / Edit Tab UX
+4. Section Workflow
+5. State Safety / Cancel Behavior
+6. Export / Deliverables
+7. Log / Release UX
+
+Important correction captured in roadmap:
+
+- Seek-to-time already exists and should be renamed/repositioned as GO, not added as a new feature.
+- Frame step / frame skip already exists.
+- Shift currently skips 5 frames.
+- Loop IN/OUT already exists.
+- These should be reorganized/relabelled, not rebuilt.
+
+NEXT DEVELOPMENT STEP
+---------------------
+
+Start Package A with a read-only implementation map.
+
+Inspect current code paths:
+
+- core/ffmpeg.py
+- core/state.py
+- core/parser.py
+- tabs/tab_edit.py
+
+Goal:
+
+- Map how video FPS is currently probed/stored
+- Map how timecodes are parsed/formatted
+- Map where user time edits are applied
+- Decide exact minimal implementation plan for frame-aware timecode support
+
+No code should be changed until the Package A implementation map is approved.
+
+HANDOFF FILES REQUIRED NEXT SESSION
+-----------------------------------
+
+Upload/use:
+
+- SESSION_CONTEXT.txt
+- PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+- PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+- V6_ROADMAP.md
+
+If the clean export manifest reports more parts, include all parts in order.
+
+================================================================================
+
+SESSION UPDATE - 2026-05-15 - V6 POLISH PASS
+=============================================
+
+Project: Subtitle Studio
+Current release track: v5.0 ship candidate / v6 polish preparation
+Current Git branch: v5-finalization
+Current Git HEAD before this context update: 77977794
+
+LATEST COMMITS
+--------------
+
+- 77977794 Remove inactive legacy tab modules
+- acebff2a Retire legacy build scripts
+- e56da0c4 Rename visible Logs workspace to Log
+- e1fb7c73 Exclude local prefs from clean exports
+- eea611ed Add ship smoke test and runtime manifests
+- 42b42413 Update session context after documentation pass
+- d2b77c5b Update build notes for v5 ship candidate
+- 99963d44 Update product README for v5 ship candidate
+- edffeebb Finalize v5 ship candidate packaging and cleanup
+
+V6 POLISH COMPLETED THIS SESSION
+--------------------------------
+
+The current v6 polish work was intentionally small and stability-focused.
+
+Completed and committed:
+
+1. Visible workspace label changed from "Logs" to "Log"
+   - Internal module/key names were intentionally preserved:
+     - tabs.tab_logs
+     - build_logs_tab
+     - logs internal key
+     - self.logs_ui
+   - Only visible user-facing labels/help text were changed.
+
+2. Legacy build scripts retired
+   - Removed from active tracked source:
+     - build_dist.bat
+     - build_release.bat
+     - build_windows_exe.bat
+   - Reason:
+     - These were stale/legacy build paths.
+     - build_release.bat referenced SubtitleStudio_v4.1_RELEASE.
+     - build_dist.bat referenced old inactive tab files.
+     - build_windows_exe.bat used an older dist/PyInstaller-style path.
+   - Current authoritative build path remains:
+     - build_nuitka.ps1
+     - make_ship_package.ps1
+     - requirements_WORKING_SHIP.txt
+
+3. Inactive legacy tab modules removed
+   - Removed:
+     - tabs/tab_import.py
+     - tabs/tab_review.py
+     - tabs/tab_convert.py
+   - Safety checks confirmed:
+     - main.py only imports active tabs:
+       - tabs.tab_edit
+       - tabs.tab_export
+       - tabs.tab_logs
+     - No active source/tests referenced the removed legacy tab modules.
+     - Selection bin controls were manually confirmed working.
+     - Export workflow was manually confirmed working.
+
+4. BUILD_NOTES.txt updated
+   - Removed stale compile references to tabs/tab_import.py.
+
+5. Clean export polish completed
+   - export_project_context.py now excludes:
+     - subtitle_studio_prefs.json
+   - Reason:
+     - It is local user preference state and already Git-ignored.
+
+6. Ship QA documentation added
+   - Added:
+     - SMOKE_TEST_CHECKLIST.txt
+     - RUNTIME_MANIFEST_SHIP.txt
+
+TEST STATUS
+-----------
+
+Automated tests were run after removing inactive legacy tabs.
+
+Result:
+
+- Parser tests passed
+- State tests passed
+- Auto-Fix tests passed
+- Dictionary tests passed
+- QC Engine tests passed
+- Overall result: 5/5 modules passed
+
+Manual checks confirmed:
+
+- python main.py launches successfully
+- Add section works
+- Delete section works
+- Move section up works
+- Move section down works
+- Export order matches visible order
+- Keyboard shortcuts behave correctly
+- Export works
+
+CURRENT ACTIVE APP ARCHITECTURE
+-------------------------------
+
+Active visible workspaces:
+
+    Edit | Export | Log
+
+Active tab modules:
+
+    tabs/tab_edit.py
+    tabs/tab_export.py
+    tabs/tab_logs.py
+
+Removed inactive legacy tab modules:
+
+    tabs/tab_import.py
+    tabs/tab_review.py
+    tabs/tab_convert.py
+
+Authoritative build/package files:
+
+    build_nuitka.ps1
+    make_ship_package.ps1
+    requirements_WORKING_SHIP.txt
+    BUILD_NOTES.txt
+    RUNTIME_MANIFEST_SHIP.txt
+    SMOKE_TEST_CHECKLIST.txt
+
+CLEAN EXPORT STATUS
+-------------------
+
+Clean export was regenerated after removing legacy build scripts and inactive tab modules.
+
+Current authoritative handoff files:
+
+    SESSION_CONTEXT.txt
+    PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+    PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+
+Expected clean export should no longer contain:
+
+    tab_import
+    tab_review
+    tab_convert
+    build_dist
+    build_release
+    build_windows_exe
+    subtitle_studio_prefs.json
+
+NEXT RECOMMENDED TASK
+---------------------
+
+Recommended next step:
+
+1. Run a source smoke test using SMOKE_TEST_CHECKLIST.txt
+2. If source smoke test passes, run Nuitka build:
+   .\build_nuitka.ps1
+3. Run packaged app smoke test
+4. If packaged app passes, create ship package:
+   .\make_ship_package.ps1
+5. Test on clean Windows machine
+
+Do not change packaging unless the packaged app or clean-machine QA exposes an issue.
+
+================================================================================
+
+SESSION UPDATE - 2026-05-15
+===========================
+
+Project: Subtitle Studio
+Current release track: v5.0 ship candidate
+Current Git branch: v5-finalization
+Current Git HEAD: d2b77c5b
+Latest commits:
+- d2b77c5b Update build notes for v5 ship candidate
+- 99963d44 Update product README for v5 ship candidate
+- edffeebb Finalize v5 ship candidate packaging and cleanup
+
+CURRENT SESSION SUMMARY
+-----------------------
+
+The project was cleaned, archived, documented, and committed.
+
+Root/project cleanup completed:
+- Old stale clean export parts were removed/archived
+- Old backup/reference source files were archived instead of deleted
+- Generated/test clutter was archived
+- Python cache folders were cleaned
+- Clean export was regenerated successfully
+
+Clean project export status:
+- PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+- PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+- Export now reports 57 files / 1 chunk
+- This is the authoritative code handoff package for current development
+
+Git status:
+- Branch: v5-finalization
+- Working tree confirmed clean after each commit
+- Current HEAD: d2b77c5b
+
+Documentation completed this session:
+- README.md updated for v5.0 ship candidate product documentation
+- BUILD_NOTES.txt updated with current known-good Nuitka packaging strategy
+- build_nuitka.ps1 preserved as authoritative working build script
+- requirements_WORKING_SHIP.txt preserved as known-good ship dependency reference
+
+Important packaging state:
+- Do not simplify build_nuitka.ps1 unless the packaged app is fully retested
+- PyAV is intentionally nofollow/manual copied
+- av.libs is manually copied
+- python3.dll is manually copied for av._core.pyd
+- audiolab is intentionally nofollow/manual copied
+- pyrnnoise is included and manually copied for rnnoise.dll
+- NumPy is handled by Nuitka, with only numpy.libs manually copied
+- SoundFile native data is copied
+- FFmpeg and MPV runtime files are bundled under bin/windows
+
+Confirmed Git commits:
+- edffeebb Finalize v5 ship candidate packaging and cleanup
+- 99963d44 Update product README for v5 ship candidate
+- d2b77c5b Update build notes for v5 ship candidate
+
+NEXT RECOMMENDED TASK
+---------------------
+
+Create or update shipping/release-facing documentation next:
+
+1. Create/update SMOKE_TEST_CHECKLIST.txt
+2. Create/update RUNTIME_MANIFEST_SHIP.txt
+3. Run tests
+4. Regenerate clean project export
+5. Optionally run Nuitka build and prepare clean-machine QA package
+
+IMPORTANT SESSION RULE
+----------------------
+
+Before further code changes, use the current clean handoff package:
+- SESSION_CONTEXT.txt
+- PROJECT_CODE_EXPORT_CLEAN_MANIFEST.txt
+- PROJECT_CODE_EXPORT_CLEAN_PART_001.txt
+
+Older stale export chunks PART_002 through PART_009 should be ignored if visible in any uploaded workspace because the current manifest reports only PART_001.
+
+================================================================================
+
+SESSION_CONTEXT.txt
+===================
+
+Project: Subtitle Studio
+Target Release: v5.0
+Session Date: 2026-05-04
+
+CURRENT STATUS
+--------------
+
+Subtitle Studio is in a stable v5.0 development state.
+
+The app currently supports:
+
+- video loading
+- bundled ffmpeg/ffprobe detection
+- proxy generation
+- frame-buffered preview playback
+- source audio extraction
+- waveform generation
+- subtitle import/edit workflow
+- section marking with IN/OUT
+- audio enhancement using RNNoise + FFmpeg
+- source/enhanced audio state groundwork
+- export workflow
+- automated test suite
+
+Current tabs/product direction:
+
+    Edit | Export | Log
+
+Decision: remove/simplify the Import tab later. Import should become File menu actions.
+
+Current source health:
+
+- Python source compiles cleanly
+- automated tests pass
+- clean project export now produces 47 files / 1 chunk instead of 7,386 files / 23 chunks
+- playback sync works before and after audio enhancement
+- shortcuts work well
+
+
+IMPORTANT PRODUCT DECISIONS MADE
+--------------------------------
+
+1. Tabs
+
+Final intended tab structure:
+
+    Edit | Export | Log
+
+No separate Import tab.
+No separate QC/Review tab.
+
+QC/Review is not a workspace. It is an automatic safety system.
+
+2. QC
+
+Auto QC should run immediately after subtitle import.
+
+Supported import types include:
+
+    .srt
+    .vtt
+    other supported subtitle formats
+
+Workflow:
+
+    User imports subtitles
+    App parses subtitles
+    App immediately runs QC silently
+    Log tab records summary
+    Serious issues show lightweight warning
+    Export preflight QC runs again before export
+
+QC and Auto-Fix should not be prominent Tools menu actions.
+
+Before export:
+
+    If issues are found:
+        show modal with:
+            Fix Automatically
+            Export Anyway
+            Cancel
+
+Details should go to the Log tab.
+
+3. Log
+
+Keep Log as a separate tab.
+
+Reason:
+
+- useful for ffmpeg/proxy/audio/export diagnostics
+- keeps Edit clean
+- helps support/debugging
+
+4. Menus
+
+Planned top menu:
+
+    File | Edit | View | Tools | Help
+
+File menu:
+
+    New Project
+    Open Project...
+    Save Project
+    Save Project As...
+
+    Import Video...
+    Import Subtitles...
+
+    Export...
+
+    Recent Projects >
+
+    Exit
+
+Edit menu:
+
+    Undo
+    Redo
+
+    Cut
+    Copy
+    Paste
+    Delete
+
+    Select All
+    Deselect All
+
+    Add Selection from IN/OUT
+    Delete Selected Selection
+    Move Selection Up
+    Move Selection Down
+
+    Find / Replace...
+
+Undo/Redo may be disabled until a reliable undo stack exists.
+
+View menu:
+
+    Theme >
+        Dark
+        Light
+        System
+
+    Preview Resolution >
+        480p
+        720p
+        1080p
+
+    Show Waveform
+    Show Subtitle Overlay
+
+    Go to Edit
+    Go to Export
+    Go to Log
+
+Dark mode should live in View > Theme and also remain available as a quick top-right toggle.
+
+Tools menu:
+
+    Enhance Audio
+    Use Source Audio
+    Use Enhanced Audio
+
+    Rebuild Preview
+    Reload Video
+
+    Dictionary Manager
+
+Help menu:
+
+    User Manual
+    Keyboard Shortcuts
+    Troubleshooting
+    Release Notes
+    About Subtitle Studio
+
+Shortcut menu should live under:
+
+    Help > Keyboard Shortcuts
+
+5. Selection Bin
+
+Selection bin needs:
+
+    [▲] [▼] [Delete]
+
+Behaviour:
+
+- ▲ moves selected section up
+- ▼ moves selected section down
+- Delete deletes selected section
+- visible order should equal export order
+- keyboard shortcuts:
+    Delete      delete selected section
+    Ctrl+Up     move selected section up
+    Ctrl+Down   move selected section down
+
+6. Playback
+
+Playback is currently good.
+
+Must still add:
+
+- disable Play while proxy is rebuilding
+- disable seek while proxy is rebuilding
+- show Preparing/Rebuilding Preview state
+- re-enable playback controls only when proxy/buffer are ready
+
+Do not rewrite playback architecture before v5.0.
+
+Current proxy + frame buffer model is good enough and stable.
+
+7. Audio Enhancement
+
+Current behaviour:
+
+- Enhance Audio works
+- RNNoise stage completes
+- FFmpeg polish stage completes
+- enhanced waveform loads
+- sync works after enhancement
+
+Decision:
+
+Before enhancement:
+
+    show Enhance Audio button
+
+After enhancement:
+
+    replace/augment with Source / Enhanced toggle
+
+Both should exist:
+
+- Edit UI toggle for fast workflow
+- Tools menu commands for discoverability
+
+Required audio choices:
+
+Edit working audio:
+
+    Source
+    Enhanced
+
+Export audio:
+
+    Use Working Audio
+    Source Audio
+    Enhanced Audio
+    Mute
+
+Default export audio:
+
+    Use Working Audio
+
+8. Export Tab
+
+Export tab should be simplified.
+
+Final intended layout:
+
+    Export Mode
+    [Full Video ▼]
+
+    Subtitles
+    [Burn Into Video ▼]
+
+    Audio
+    [Use Working Audio ▼]
+
+    Quality
+    [Standard MP4 ▼]
+
+    Font Size
+    [12]
+
+    Output
+    [Choose...]
+
+    [Export]
+
+Export Mode options:
+
+    Full Video
+    Selections as Separate Clips
+    Remove Selections from Video
+    Selections Merged Into One Video
+    Subtitles Only
+    Audio Only
+
+Subtitles options:
+
+    Burn Into Video
+    Sidecar SRT
+    No Subtitles
+
+Default subtitle mode:
+
+    Burn Into Video
+
+Audio options:
+
+    Use Working Audio
+    Source Audio
+    Enhanced Audio
+    Mute
+
+Quality options:
+
+    Small MP4
+    Standard MP4
+    High Quality MP4
+    Lossless
+
+Default font size:
+
+    12
+
+Burn-in style should not be exposed.
+Brand styling is already set.
+Only font size should be user-adjustable for v5.
+
+
+CHANGES COMPLETED THIS SESSION
+------------------------------
+
+1. Parser timing precision fixed
+
+core/parser.py:
+
+- seconds_to_display() now returns HH:MM:SS.mmm
+- subtitle timing display now preserves milliseconds
+- round-trip timing tests pass
+
+Reason:
+
+- previous display stripped milliseconds
+- this could damage subtitle timing during edit round-trips
+
+2. requirements.txt updated
+
+Removed:
+
+    openai-whisper
+
+Added:
+
+    numpy
+    soundfile
+    pyrnnoise
+
+Reason:
+
+- AI transcription is not part of v5.0 shipped workflow
+- audio enhancement requires numpy/soundfile/pyrnnoise
+
+3. Version labels updated
+
+Updated app/test/docs direction to v5.0.
+
+Files touched included:
+
+    main.py
+    launcher.py
+    run_tests.py
+    README.md
+    BUILD_NOTES.txt
+
+4. README.md replaced
+
+README now describes Subtitle Studio v5.0 accurately.
+
+Key points:
+
+- AI transcription intentionally disabled
+- v5.0 is an editing/QC/media/audio/export tool
+- dependencies documented
+- tests documented
+
+5. BUILD_NOTES.txt replaced
+
+Build notes now describe v5.0 release state, risks, dependency notes, and checklist.
+
+6. export_project_context.py cleaned
+
+Exclusions added:
+
+    python_env
+    models
+    subtitlestudio_v4.1_release
+
+Result:
+
+- old export: 7,386 files / 23 chunks
+- clean export: 47 files / 1 chunk
+
+Command used successfully:
+
+    python export_project_context.py --root . --output-prefix PROJECT_CODE_EXPORT_CLEAN --extensions .py,.md,.txt,.json,.bat,.spec,.csv --max-mb 5
+
+7. Python dependency smoke check passed
+
+Confirmed imports:
+
+    customtkinter
+    pygame
+    docx
+    cv2
+    PIL
+    spellchecker
+    numpy
+    soundfile
+    pyrnnoise
+
+pygame warning about pkg_resources is harmless.
+
+8. ffmpeg/ffprobe confirmed
+
+App logs showed bundled binaries:
+
+    C:\Tools\subtitle_studio\bin\windows\ffmpeg.exe
+    C:\Tools\subtitle_studio\bin\windows\ffprobe.exe
+
+9. Audio path validation added
+
+core/state.py:
+
+- validate_audio_paths() added
+- load_project() now validates source/enhanced/active audio paths
+- missing enhanced audio falls back safely to source audio
+- missing audio paths are cleared safely
+
+tests/test_state.py:
+
+- added tests for audio validation fallback
+- added tests for missing audio cleanup
+
+10. Edit tab audio status label added
+
+Edit tab now shows active audio state such as:
+
+    Audio: not loaded
+    Audio: source active
+    Audio: enhancing...
+    Audio: enhanced active
+
+11. Full export external audio groundwork added
+
+tabs/tab_export.py:
+
+- helper added to retrieve export audio path
+- full export can map external audio input
+
+Current issue:
+
+- export used source extracted WAV, not enhanced WAV
+- log showed:
+    Using external export audio: subtitle_studio_audio_...
+- expected enhanced audio would be:
+    subtitle_studio_enhanced_...
+
+Root cause:
+
+- no explicit working/export audio selector yet
+- state.export_use_enhanced_audio is likely false or not connected to UI
+
+Do not continue hacking export until audio selector is implemented.
+
+12. Playback sync hardening
+
+core/player.py:
+
+- playback position sync changed to use app wall-clock timeline as master
+- pygame.mixer.music.get_pos() no longer controls subtitle/video timeline
+
+Reason:
+
+- pygame audio clock can become unreliable after reloads, seeks, pauses, or swapping source/enhanced audio
+
+Manual result:
+
+- video plays well before enhancement
+- shortcuts work well
+- sync works well after enhancement
+
+
+CURRENT KNOWN ISSUES / NEXT WORK
+--------------------------------
+
+1. Selection Bin cannot delete sections
+
+Need:
+
+    [▲] [▼] [Delete]
+
+Also keyboard shortcuts:
+
+    Delete
+    Ctrl+Up
+    Ctrl+Down
+
+2. Selection Bin cannot reorder sections
+
+Need move up/down controls.
+Export should respect visible selection order.
+
+3. Section selection should influence subtitle bin
+
+Desired:
+
+- selecting a section should scope/highlight subtitles overlapping that section
+- do not auto-select every subtitle dangerously
+- clearing section selection returns to all subtitles
+
+4. Playback controls remain active during proxy rebuild
+
+Observed log:
+
+    Preview resolution: 720p
+    Rebuilding preview at new resolution...
+    [!] Preview still preparing — please wait.
+
+Need:
+
+- disable Play during rebuild
+- disable seek during rebuild
+- disable resolution dropdown during rebuild
+- show rebuilding status
+- re-enable once buffer ready
+
+5. Audio source/enhanced toggle not implemented yet
+
+Need:
+
+Before enhancement:
+
+    [Enhance Audio]
+
+After enhancement:
+
+    Audio: [Source] [Enhanced]
+
+Default after enhancement:
+
+    Enhanced
+
+User must be able to switch back to Source.
+
+6. Export audio selection not correct yet
+
+Observed:
+
+- full export used source extracted WAV instead of enhanced WAV
+
+Need export audio dropdown:
+
+    Use Working Audio
+    Source Audio
+    Enhanced Audio
+    Mute
+
+Then export should correctly map selected audio.
+
+7. Export tab still too complex
+
+Needs simplified dropdown layout:
+
+    Export Mode
+    Subtitles
+    Audio
+    Quality
+    Font Size
+    Output
+    Export
+
+Default:
+
+    Export Mode: Full Video
+    Subtitles: Burn Into Video
+    Audio: Use Working Audio
+    Quality: Standard MP4
+    Font Size: 12
+
+8. Import tab still exists / needs simplification
+
+Final direction:
+
+- remove Import as a workspace tab
+- move import actions to File menu:
+    Import Video...
+    Import Subtitles...
+
+9. Menubar layout issue
+
+Current menubar/right-side items appear stacked.
+
+Need future fix:
+
+- real horizontal top menu/toolbar
+- left-aligned menus
+- right-aligned project/theme/status controls
+- no wrapping/stacking
+
+10. Auto QC on subtitle import not implemented/confirmed
+
+Need:
+
+- run QC automatically after subtitle import
+- log summary
+- lightweight warning only if serious issues
+- export preflight QC still runs before export
+
+11. Packaging is deferred
+
+Do not package yet.
+
+Packaging risks still open:
+
+- clean Windows machine test
+- bundled ffmpeg/ffprobe distribution test
+- pyrnnoise packaging risk
+- macOS compatibility test
+
+
+NEXT RECOMMENDED CODING ORDER
+-----------------------------
+
+1. Add Selection Bin controls:
+
+    [▲] [▼] [Delete]
+
+2. Add selection reorder/delete keyboard shortcuts:
+
+    Delete
+    Ctrl+Up
+    Ctrl+Down
+
+3. Disable playback controls during proxy rebuild.
+
+4. Add Source / Enhanced working audio toggle after enhancement.
+
+5. Add Export Audio selector:
+
+    Use Working Audio
+    Source Audio
+    Enhanced Audio
+    Mute
+
+6. Fix export to use selected audio source correctly.
+
+7. Simplify Export tab.
+
+8. Add auto QC on subtitle import.
+
+9. Move Import into File menu and remove Import tab.
+
+10. Fix menubar layout.
+
+11. Update README.md / BUILD_NOTES.txt again after UI changes.
+
+12. Package only after all above are stable.
+
+
+TEST COMMANDS
+-------------
+
+Run tests:
+
+    cd C:\Tools\subtitle_studio
+    python run_tests.py
+
+Generate clean export:
+
+    cd C:\Tools\subtitle_studio
+    python export_project_context.py --root . --output-prefix PROJECT_CODE_EXPORT_CLEAN --extensions .py,.md,.txt,.json,.bat,.spec,.csv --max-mb 5
+
+Launch app:
+
+    cd C:\Tools\subtitle_studio
+    python launcher.py
+
+
+IMPORTANT MANUAL TEST CASES
+---------------------------
+
+Playback:
+
+- load normal video
+- confirm proxy generation
+- confirm waveform generation
+- play/pause/seek
+- use shortcuts
+- change preview resolution
+- ensure controls behave during rebuild
+
+Audio:
+
+- load video
+- enhance audio
+- confirm enhanced waveform loads
+- confirm sync before enhancement
+- confirm sync after enhancement
+- switch source/enhanced once toggle exists
+
+Sections:
+
+- mark IN
+- mark OUT
+- add section
+- delete section once implemented
+- move section up/down once implemented
+- confirm export order follows bin order
+
+Export:
+
+- full video
+- burn subtitles by default
+- font size default 12
+- source audio export
+- enhanced audio export
+- mute export
+- sections as clips
+- remove selections from video
+- merged sections
+
+QC:
+
+- import .srt
+- confirm auto QC runs
+- confirm log summary
+- confirm export preflight QC still runs
+
+
+PAUSE POINT SUMMARY
+-------------------
+
+This is a stable pause point.
+
+The app is no longer in emergency repair mode.
+
+Core stability is good:
+
+- tests pass
+- playback works
+- shortcuts work
+- enhancement works
+- sync after enhancement works
+- clean export works
+- bundled ffmpeg/ffprobe work
+
+Next session should start with Selection Bin controls:
+
+    [▲] [▼] [Delete]
+
+Do not begin with packaging.
+Do not begin with export redesign.
+Do not rewrite playback.
+
+SESSION_CONTEXT.txt
+===================
+
+Project: Subtitle Studio
+Target Release: v5.0
+Session Date: 2026-05-05
+Current Branch: v5-finalization
+Current Commit: 0f2af85c Add working audio selector after enhancement
+
+CURRENT STATUS
+--------------
+
+Subtitle Studio is in a stable v5.0 development state.
+
+Major milestone completed today:
+
+    MPV/libmpv preview backend is merged into v5-finalization.
+
+The Edit tab now supports:
+
+- smooth MPV/libmpv video playback
+- stable A/V sync
+- live scrubbing
+- source audio extraction
+- waveform generation
+- MPV external audio selection
+- audio enhancement using RNNoise + FFmpeg
+- enhanced waveform generation
+- working audio dropdown after enhancement
+- switching between Enhanced and Original audio
+- section marking
+- section reorder/delete controls
+- section keyboard shortcuts
+- subtitle bin editing
+- corrupt-video diagnostics
+- silent-video handling
+
+Current tabs/product direction remains:
+
+    Edit | Export | Log
+
+Decision:
+
+- Import tab should be removed/simplified later.
+- Import should become File menu actions.
+- QC/Review is not a workspace tab.
+- QC is an automatic safety system.
+
+LATEST VERIFIED MANUAL WORKFLOW
+--------------------------------
+
+Test video:
+
+    Springboard_GOLD_Izzy.MOV
+
+Verified log flow:
+
+    [OK] MPV diagnostics: python-mpv available; using mpv-2.dll.
+    [OK] Using MPV preview backend.
+    [OK] MPV preview backend started.
+    [OK] MPV playback ready.
+    Extracting audio for waveform...
+    [OK] Source audio ready for waveform.
+    [OK] MPV external audio selected: subtitle_studio_audio_...
+    [OK] Waveform loaded.
+    Enhance Audio pressed.
+    Playback stopped for audio enhancement.
+    Enhancing audio...
+    [OK] RNNoise stage complete.
+    [OK] FFmpeg polish stage complete.
+    [OK] Enhanced audio ready: subtitle_studio_enhanced_...
+    Generating waveform from enhanced audio...
+    [OK] MPV external audio selected: subtitle_studio_enhanced_...
+    [OK] Enhanced waveform loaded.
+    Playhead reset to start after audio enhancement.
+    Switching working audio to original...
+    [OK] MPV external audio selected: subtitle_studio_audio_...
+    [OK] Original waveform loaded.
+    [OK] Working audio: original
+    Switching working audio to enhanced...
+    [OK] MPV external audio selected: subtitle_studio_enhanced_...
+    [OK] Enhanced waveform loaded.
+    [OK] Working audio: enhanced
+
+Verified UX:
+
+    Before enhancement:
+        Audio: source active      [Enhance Audio]
+
+    After enhancement:
+        Audio: enhanced active    [Enhanced ▼]
+
+    Dropdown options:
+        Enhanced
+        Original
+
+    Selecting Original:
+        switches MPV to source extracted WAV
+        regenerates source waveform
+        updates status to source active
+        dropdown shows Original
+
+    Selecting Enhanced:
+        switches MPV to enhanced WAV
+        regenerates enhanced waveform
+        updates status to enhanced active
+        dropdown shows Enhanced
+
+Confirmed:
+    The UI now works correctly.
+    The dropdown uses the same right-side slot as the old Enhance Audio button.
+    No squeeze/layout issue remains after final packing fix.
+
+IMPORTANT PRODUCT DECISIONS
+---------------------------
+
+1. Tabs
+
+Final intended tab structure:
+
+    Edit | Export | Log
+
+No separate Import tab.
+No separate QC/Review tab.
+
+2. QC
+
+Auto QC should run immediately after subtitle import.
+
+Workflow:
+
+    User imports subtitles
+    App parses subtitles
+    App immediately runs QC silently
+    Log tab records summary
+    Serious issues show lightweight warning
+    Export preflight QC runs again before export
+
+Before export:
+
+    If issues are found:
+        show modal with:
+            Fix Automatically
+            Export Anyway
+            Cancel
+
+Details should go to the Log tab.
+
+3. Menus
+
+Planned top menu:
+
+    File | Edit | View | Tools | Help
+
+File menu:
+
+    New Project
+    Open Project...
+    Save Project
+    Save Project As...
+
+    Import Video...
+    Import Subtitles...
+
+    Export...
+
+    Recent Projects >
+
+    Exit
+
+Edit menu:
+
+    Undo
+    Redo
+
+    Cut
+    Copy
+    Paste
+    Delete
+
+    Select All
+    Deselect All
+
+    Add Selection from IN/OUT
+    Delete Selected Selection
+    Move Selection Up
+    Move Selection Down
+
+    Find / Replace...
+
+View menu:
+
+    Theme >
+        Dark
+        Light
+        System
+
+    Preview Resolution >
+        480p
+        720p
+        1080p
+
+    Show Waveform
+    Show Subtitle Overlay
+
+    Go to Edit
+    Go to Export
+    Go to Log
+
+Tools menu:
+
+    Enhance Audio
+    Use Source/Original Audio
+    Use Enhanced Audio
+
+    Rebuild Preview
+    Reload Video
+
+    Dictionary Manager
+
+Help menu:
+
+    User Manual
+    Keyboard Shortcuts
+    Troubleshooting
+    Release Notes
+    About Subtitle Studio
+
+4. Playback
+
+Current preferred playback backend:
+
+    MPV/libmpv
+
+Runtime requirements for preferred backend:
+
+    python-mpv
+    bin/windows/mpv-2.dll
+
+Fallback:
+
+    legacy FramePlayer remains available if MPV is unavailable.
+
+MPV work completed:
+
+    A/V sync
+    scrubbing
+    waveform
+    source audio
+    enhanced audio
+    external audio switching
+    silent-video support
+    corrupt-video diagnostics
+
+5. Audio Enhancement
+
+Current behaviour:
+
+    Before enhancement:
+        [Enhance Audio]
+
+    After enhancement:
+        [Enhanced ▼]
+            Enhanced
+            Original
+
+Default after enhancement:
+
+    Enhanced
+
+User can switch back to Original.
+
+Working audio means:
+
+    The audio currently used for Edit preview and waveform.
+    Export default should later be able to use this via:
+        Use Working Audio
+
+6. Export Tab Final Intended Design
+
+Export tab should be simplified.
+
+Final intended layout:
+
+    Export Mode
+    [Full Video ▼]
+
+    Subtitles
+    [Burn Into Video ▼]
+
+    Audio
+    [Use Working Audio ▼]
+
+    Quality
+    [Standard MP4 ▼]
+
+    Font Size
+    [12]
+
+    Output
+    [Choose...]
+
+    [Export]
+
+Export Mode options:
+
+    Full Video
+    Selections as Separate Clips
+    Remove Selections from Video
+    Selections Merged Into One Video
+    Subtitles Only
+    Audio Only
+
+Subtitles options:
+
+    Burn Into Video
+    Sidecar SRT
+    No Subtitles
+
+Default subtitle mode:
+
+    Burn Into Video
+
+Audio options:
+
+    Use Working Audio
+    Original Audio
+    Enhanced Audio
+    Mute
+
+Default export audio:
+
+    Use Working Audio
+
+Quality options:
+
+    Small MP4
+    Standard MP4
+    High Quality MP4
+    Lossless
+
+Default quality:
+
+    Standard MP4
+
+Default font size:
+
+    12
+
+Burn-in style should not be exposed for v5.
+Brand styling is already set.
+Only font size should be user-adjustable for v5.
+
+COMMITS COMPLETED RECENTLY
+--------------------------
+
+Current branch:
+
+    v5-finalization
+
+Latest commits:
+
+    0f2af85c Add working audio selector after enhancement
+    6d213f39 Improve corrupt video probe errors
+    3eaf7a26 Improve MPV diagnostics and no-audio handling
+    6d11e9e6 Enable enhanced audio with MPV preview
+    7c8d156c Use extracted audio with MPV preview
+    a10c2537 Throttle waveform preparation warning
+    a0ea28cd Add MPV preview backend
+    772b7413 Wire menu import actions
+    db26a495 Add v5 menu bar skeleton
+
+NOTES FROM TODAY
+----------------
+
+1. MPV preview branch was merged into v5-finalization.
+
+Merge was fast-forward:
+
+    mpv-preview-spike -> v5-finalization
+
+2. Corrupt video handling improved.
+
+Bad/corrupt MP4 now logs:
+
+    [ERROR] Could not inspect video. The file may be corrupt, incomplete, or unsupported.
+    ffprobe exit code: 1
+    Details: moov atom not found
+
+3. Silent video handling improved.
+
+Silent video now logs:
+
+    [!] No audio track found. Waveform unavailable; silent preview.
+
+Controls unlock and section marking still works.
+
+4. Working audio dropdown added.
+
+Enhance Audio button becomes dropdown after enhancement.
+
+Final labels:
+
+    Enhanced
+    Original
+
+Do not use:
+    Source Audio
+    Enhanced Audio
+
+in the compact Edit tab dropdown.
+
+5. Layout issue fixed.
+
+The dropdown must be packed using:
+
+    before=audio_status_label
+
+The Enhance Audio button should also repack with:
+
+    before=audio_status_label
+
+so the same right-side slot is used and the UI does not squeeze left.
+
+CURRENT KNOWN ISSUES / NEXT WORK
+--------------------------------
+
+1. Export tab still needs redesign.
+
+Do not patch old complex Export tab incrementally.
+
+Implement the simplified dropdown design:
+
+    Export Mode
+    Subtitles
+    Audio
+    Quality
+    Font Size
+    Output
+    Export
+
+2. Export audio policy still needs implementation.
+
+Export Audio dropdown:
+
+    Use Working Audio
+    Original Audio
+    Enhanced Audio
+    Mute
+
+Rules:
+
+    Use Working Audio:
+        export state.active_audio_path if available.
+        if active audio unavailable, fall back safely.
+
+    Original Audio:
+        export state.source_audio_path if available.
+        otherwise use embedded video audio.
+
+    Enhanced Audio:
+        export state.enhanced_audio_path.
+        if missing, disable option or show warning.
+
+    Mute:
+        export video without audio.
+
+Need ensure all export modes respect this:
+
+    Full Video
+    Selections as Separate Clips
+    Remove Selections from Video
+    Selections Merged Into One Video
+    Subtitles Only
+    Audio Only
+
+3. Export mode mapping still needs validation.
+
+Need inspect/fix:
+
+    full video export
+    split clips export
+    merged selections export
+    remove selections export
+    subtitles-only export
+    audio-only export
+
+4. Import tab still exists.
+
+Final direction:
+
+    Remove Import as workspace tab later.
+    Move Import Video/Subtitles to File menu.
+
+5. Auto QC on subtitle import still needs implementation/confirmation.
+
+Need:
+
+    run QC automatically after subtitle import
+    log summary
+    lightweight warning only for serious issues
+    export preflight QC before export
+
+6. Menubar layout still needs polish.
+
+Current/known issue:
+
+    menubar/right-side items can stack/wrap.
+
+Need future fix:
+
+    true horizontal top menu/toolbar
+    left-aligned menus
+    right-aligned project/theme/status controls
+
+7. Documentation needs final update.
+
+README.md and BUILD_NOTES.txt should be updated after Export redesign and Import tab removal decisions are implemented.
+
+8. Packaging deferred.
+
+Do not package yet.
+
+Packaging risks:
+
+    python-mpv
+    mpv-2.dll
+    pyrnnoise
+    ffmpeg/ffprobe bundle
+    clean Windows machine test
+    macOS compatibility test
+
+NEXT RECOMMENDED CODING ORDER
+-----------------------------
+
+1. Simplify Export tab to final dropdown design.
+
+2. Add Export Audio dropdown:
+
+    Use Working Audio
+    Original Audio
+    Enhanced Audio
+    Mute
+
+3. Fix export pipeline to respect selected audio source for all export modes.
+
+4. Add/verify Export preflight QC.
+
+5. Add auto QC on subtitle import.
+
+6. Move Import into File menu and remove Import tab as workspace.
+
+7. Fix menubar layout.
+
+8. Update README.md / BUILD_NOTES.txt.
+
+9. Packaging only after all above are stable.
+
+TEST COMMANDS
+-------------
+
+Run tests:
+
+    cd C:\Tools\subtitle_studio
+    python run_tests.py
+
+Compile key files:
+
+    python -m py_compile tabs\tab_edit.py tabs\tab_export.py core\player_mpv.py core\ffmpeg.py core\state.py
+
+Launch app:
+
+    python launcher.py
+
+Generate clean export:
+
+    python export_project_context.py --root . --output-prefix PROJECT_CODE_EXPORT_CLEAN --extensions .py,.md,.txt,.json,.bat,.spec,.csv --max-mb 5
+
+IMPORTANT MANUAL TEST CASES
+---------------------------
+
+Playback:
+
+    load normal video
+    confirm MPV starts
+    confirm waveform generation
+    play/pause/seek/scrub
+    use shortcuts
+    section mark/reorder/delete
+
+Audio:
+
+    load video with audio
+    wait for source waveform
+    enhance audio
+    confirm enhanced waveform loads
+    confirm dropdown appears as Enhanced
+    switch to Original
+    confirm source waveform and audio
+    switch to Enhanced
+    confirm enhanced waveform and audio
+    re-run enhancement
+    confirm new enhanced file becomes active
+
+Silent video:
+
+    load silent video
+    confirm no-audio message
+    confirm controls unlock
+    confirm section marking works
+    confirm Enhance Audio disabled/dropdown hidden
+
+Corrupt video:
+
+    load corrupt MP4
+    confirm clear ffprobe error
+    confirm no crash
+    app remains usable
+
+Export:
+
+    NEXT SESSION:
+        focus here
+
+    Test after redesign:
+        full video
+        burn subtitles default
+        font size default 12
+        Use Working Audio
+        Original Audio
+        Enhanced Audio
+        Mute
+        selections as clips
+        remove selections from video
+        merged selections
+        subtitles only
+        audio only
+
+PAUSE POINT SUMMARY
+-------------------
+
+Stable pause point.
+
+The app is no longer in emergency repair mode.
+
+Core stability is good:
+
+    tests pass
+    MPV playback works
+    scrubbing works
+    source waveform works
+    enhancement works
+    enhanced waveform works
+    working audio selector works
+    silent video handled
+    corrupt video handled
+    section reorder/delete works
+
+Next session should start with:
+
+    Simplified Export tab redesign
+
+Do not begin with packaging.
+Do not begin by patching the old Export layout piecemeal.
+Do not rewrite playback.
+
+## Latest Session Update — Export Tab UI Freeze
+
+Branch:
+- Working branch remains v5-finalization unless changed locally.
+
+Completed:
+- Export tab UI was polished and frozen for now.
+- Left column wording changed from Marked Sections to Clip Selections.
+- Export Mode changed from radio buttons to a dropdown.
+- Export Mode now includes:
+  - Full Video
+  - Remove Selected Sections
+  - Selected Sections as Separate Clips
+  - Merge Selected Sections
+  - Subtitles Only
+  - Audio Only
+- Subtitle Options converted to a compact single-row layout.
+- Subtitle output is now a dropdown:
+  - Burn subtitles into video
+  - Export sidecar file
+  - Burn + sidecar file
+  - No subtitles
+- Subtitle-only format is now a dropdown in the same row:
+  - SRT
+  - VTT
+  - TXT
+  - DOCX
+  - Final Cut Pro XML
+- Subtitle-only export function updated to export the selected format.
+- Audio Options converted to compact row:
+  - Export audio file
+  - Format dropdown: MP3, AAC, WAV
+  - Quality dropdown: 128/192/256/320 kbps, WAV uses Uncompressed PCM
+- Compression changed from vertical radio list to dropdown with estimated file sizes.
+- Video Options converted to one compact row:
+  - Resolution
+  - Compression
+  - Custom target MB
+- Output section redesigned into a more elegant full-width Output / Export card.
+- Output card moved below both columns so the tab feels more balanced.
+- Save As… wording intentionally retained.
+- Numbered decision UI was rejected; do not add numbered sections.
+- Right-side vertical stretching attempt was too much and should remain rolled back.
+- UI is frozen at the current balanced state.
+
+Known Issues / Pending:
+- Export button still needs to become Cancel Export during export.
+- Audio Only mode needs cleanup:
+  - force audio export on
+  - disable irrelevant video/subtitle controls
+  - ensure output extension matches audio format
+- Custom Target Size still needs proper two-pass encoding.
+- Compression estimates should be improved later for HandBrake-level accuracy.
+- Enhanced Audio should be greyed out when unavailable when audio source controls are added.
+- Selection Bin → Subtitle Bin cue highlight remains queued after Export tab work.
+
+Next Task:
+- Implement Export button turning into Cancel Export during active export, with only Cancel clickable.
+
+Additional Next Session Notes:
+- Custom Target Size input should only be active when Compression is set to Custom Target Size.
+- Video/Export Mode dropdown should be sleeker:
+  - reduce dropdown width and height
+  - remove long hint-style wording from inside the white dropdown box
+  - keep the selected mode short
+  - move the descriptive hint text directly below the dropdown
+- Subtitles Only mode should support selecting multiple subtitle output formats at once:
+  - SRT
+  - VTT
+  - TXT
+  - DOCX
+  - Final Cut Pro XML
+- User specifically wants combinations like SRT + VTT + TXT in a single subtitle-only export.
+- Current single dropdown for subtitle-only format is acceptable for the freeze point but should be revisited next session.
+
+Next Tasks:
+1. Custom Target Size field only active when Custom Target Size compression is selected.
+2. Make Export Mode dropdown sleeker with short selected labels and hint text below.
+3. Rework Subtitles Only output formats to allow multi-select export.
+4. Implement Export button turning into Cancel Export during active export.
+5. Clean up Audio Only mode.
+6. Add two-pass encoding for Custom Target Size.
+7. Add Selection Bin → Subtitle Bin cue highlight.
+
+SESSION NOTES UPDATE — Export Tab v5 UI Layout Cleanup
+========================================================
+Date: 2026-05-08
+Project: Subtitle Studio
+Area: tabs/tab_export.py
+Status: v5 Export UI bridge working; layout cleanup in progress
+
+CURRENT STATE
+-------------
+The Export tab is being migrated from the legacy single-mode export UI to the v5 multi-output plan model.
+
+The top-level model is:
+
+    Export Outputs
+    [x] Video   [ ] Audio   [ ] Subtitles
+
+The legacy Export Mode dropdown is hidden but still exists in memory because the export backend still depends on:
+
+    mode_var
+    burn_sub_var
+    sidecar_var
+    subonly_var
+    audio_var
+
+The v5 bridge functions currently in use are:
+
+    _sync_v5_to_legacy_export_state()
+    _build_export_plan()
+    _update_output_summary()
+
+The backend is still legacy-routed through:
+
+    _export_full()
+    _export_split()
+    _export_merge()
+    _export_delete()
+    _export_audio()
+    _export_subtitle_only()
+
+BACKUP
+------
+The working pre-redesign Export tab backup exists as:
+
+    tabs/tab_export_working_before_v5_redesign.py
+
+RECENTLY COMPLETED
+------------------
+1. Added top-level v5 output checkboxes:
+
+    Video
+    Audio
+    Subtitles
+
+2. Added v5 export plan variables:
+
+    export_video_var
+    export_audio_var
+    export_subtitles_var
+
+    video_selection_var
+    audio_selection_var
+    subtitle_selection_var
+
+    video_burn_display_var
+    video_embedded_audio_var
+    audio_source_var
+
+    subtitle_fmt_srt_var
+    subtitle_fmt_vtt_var
+    subtitle_fmt_txt_var
+    subtitle_fmt_docx_var
+    subtitle_fmt_fcpxml_var
+
+3. Added visible v5 Video controls:
+
+    Selection
+    Embedded Audio
+    Burn Subtitles
+    Subtitle Font slider
+    Resolution
+    Compression
+    Target Size
+
+4. Added visible v5 Subtitles controls:
+
+    Selection
+    Formats: SRT, VTT, TXT, DOCX, FCPXML
+
+5. Added visible v5 Audio controls:
+
+    Selection
+    Source
+    Format
+    Quality
+
+6. Added v5 Output Summary.
+
+7. Added v5 export plan logging:
+
+    Export plan:
+      Video: {...}
+      Audio: {...}
+      Subtitles: {...}
+
+8. Fixed no-output behavior:
+
+    Users can temporarily uncheck all output types while switching output mode.
+    Export warns if no outputs are selected.
+
+9. Fixed v5 bridge routing so legacy subonly_var only means pure subtitles-only:
+
+    subonly_var.set(
+        bool(subtitles_enabled and not video_enabled and not audio_enabled)
+    )
+
+10. Fixed Audio + Subtitles bridge routing:
+
+    [ ] Video
+    [x] Audio
+    [x] Subtitles
+
+exports audio and then subtitles using the compatibility path.
+
+11. Fixed Video + Subtitles bridge routing:
+
+    [x] Video
+    [ ] Audio
+    [x] Subtitles
+
+exports video and then subtitles, including when Burn Subtitles = No.
+
+LATEST AGREED UI LAYOUT
+-----------------------
+The desired visible order is:
+
+    Export Outputs
+    Video
+    Subtitles
+    Audio
+    Output
+
+The desired Video card layout is:
+
+    First line:
+        Selection
+        Embedded Audio
+        Burn Subtitles
+        Subtitle Font Slider
+
+    Second line:
+        Resolution dropdown
+        Compression dropdown
+        Target Size box
+
+Resolution dropdown values:
+
+    Same as Source
+    1080p
+    720p
+
+Internal resolution values:
+
+    original
+    1080
+    720
+
+The desired Subtitles card layout is:
+
+    Selection
+    Formats: SRT, VTT, TXT, DOCX, FCPXML
+
+The desired Audio card layout is unchanged:
+
+    Selection
+    Source
+    Format
+    Quality
+
+CURRENT ISSUE
+-------------
+After applying the latest layout cleanup, the user reports:
+
+    "the subtitle options seems to be hidden"
+
+Most likely cause:
+
+    The layout cleanup introduced duplicate/reassigned widget variable names for the Subtitles card.
+    The old Subtitles card is intentionally hidden, but the new reordered Subtitles card may not have been inserted, packed, or referenced correctly.
+
+Important affected names include:
+
+    sub_section_lbl
+    sub_card
+    sub_v5_row
+    sub_formats_row
+    subtitle_selection_lbl
+    subtitle_selection_dropdown
+    subtitle_formats_lbl
+    subtitle_fmt_srt_check
+    subtitle_fmt_vtt_check
+    subtitle_fmt_txt_check
+    subtitle_fmt_docx_check
+    subtitle_fmt_fcpxml_check
+
+Debug direction:
+
+    1. Verify old Subtitles card is hidden only once.
+    2. Verify new Subtitles card is created after video_divider and before Audio card.
+    3. Verify new Subtitles card is packed into va_frame, not into a hidden parent.
+    4. Avoid reusing the same variable names for hidden old widgets and visible new widgets if it causes confusion.
+    5. Preferred fix: create the reordered visible subtitles card with distinct names such as:
+
+        sub_visible_section_lbl
+        sub_visible_card
+        sub_visible_row
+        sub_visible_formats_frame
+
+    6. Update theme refresh and export lock list to reference the visible widgets.
+
+RECOMMENDED NEXT PATCH
+----------------------
+Do a small focused fix only:
+
+    - Do not touch export backend.
+    - Do not touch the v5 bridge logic.
+    - Do not remove legacy widgets/functions.
+    - Only restore the visible Subtitles card between Video and Audio.
+
+Recommended visible Subtitles insertion point:
+
+    After:
+
+        video_divider = tk.Frame(...)
+        video_divider.pack(...)
+
+    Before:
+
+        # ── Audio Export (right) ──
+
+Recommended new widget names:
+
+    sub_visible_section_lbl
+    sub_visible_card
+    sub_visible_row
+    sub_visible_formats_frame
+    sub_visible_selection_lbl
+    sub_visible_selection_dropdown
+    sub_visible_formats_lbl
+    sub_visible_fmt_srt_check
+    sub_visible_fmt_vtt_check
+    sub_visible_fmt_txt_check
+    sub_visible_fmt_docx_check
+    sub_visible_fmt_fcpxml_check
+
+After adding visible widgets, update:
+
+    _set_export_controls_enabled()
+    _refresh_theme()
+
+with the new visible widget names.
+
+CURRENT LIMITATIONS STILL PRESENT
+---------------------------------
+The UI is ahead of the backend. These are not fully implemented yet:
+
+1. Embedded Audio = Mute does not yet map to FFmpeg -an.
+2. Embedded Audio = Original/Enhanced/Use Working Audio is not yet fully plan-driven.
+3. Audio Source = Original/Enhanced/Use Working Audio is not yet fully plan-driven.
+4. Multi-format subtitle export is not fully implemented.
+   Current compatibility behavior exports only the first checked subtitle format.
+5. Subtitle selection scopes are visible but not fully implemented:
+
+    Full Source
+    Remove Clip Selections
+    Clip Selections as Separate Files
+    Merge Clip Selections
+
+6. Destination is still legacy hybrid file/folder behavior.
+   Final v5 should use folder-only destination.
+
+NEXT BACKEND PHASES AFTER UI STABILIZES
+---------------------------------------
+Phase 2: Implement real multi-format subtitle export:
+
+    _export_subtitles_from_plan(plan)
+
+Phase 3: Implement subtitle selection scopes.
+
+Phase 4: Refactor standalone audio export to use plan:
+
+    selection
+    source
+    format
+    bitrate
+    destination folder
+
+Phase 5: Refactor video export to use plan:
+
+    selection
+    resolution
+    compression
+    burn_subtitles
+    embedded_audio
+
+Including:
+
+    Mute -> FFmpeg -an
+    Original Audio
+    Enhanced Audio
+    Use Working Audio
+
+Phase 6: Switch Destination to folder-only output.
+
+Phase 7: Remove legacy mode/subtitle/sidecar UI and bridge code after plan-based export is stable.
+
+REGRESSION TESTS
+----------------
+After any UI cleanup, test:
+
+1. Video only:
+
+    [x] Video
+    [ ] Audio
+    [ ] Subtitles
+
+2. Video + Subtitles, Burn = Yes:
+
+    [x] Video
+    [ ] Audio
+    [x] Subtitles
+
+3. Video + Subtitles, Burn = No:
+
+    [x] Video
+    [ ] Audio
+    [x] Subtitles
+
+4. Audio + Subtitles:
+
+    [ ] Video
+    [x] Audio
+    [x] Subtitles
+
+5. Subtitles only:
+
+    [ ] Video
+    [ ] Audio
+    [x] Subtitles
+
+6. No outputs selected:
+
+    [ ] Video
+    [ ] Audio
+    [ ] Subtitles
+
+Expected: warning on Export.
+
+NOTES
+-----
+Keep tabs/tab_export_working_before_v5_redesign.py until the full v5 export plan backend is complete.
+Do not remove legacy variables/functions yet.
