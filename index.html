@@ -91,43 +91,12 @@
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 
+        .app-badge { display: inline-block; padding: 0.25rem 0.5rem; background: var(--border); color: var(--text-dim); border-radius: 2px; font-size: 0.7rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+
         .timeline-item { position: relative; padding-left: 2.5rem; margin-bottom: 3rem; }
         .timeline-item::before { content: ""; position: absolute; left: 0; top: 0; bottom: -3rem; width: 1px; background: var(--border); }
         .timeline-item:last-child::before { display: none; }
         .timeline-item::after { content: ""; position: absolute; left: -4px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
-
-        .doc-link {
-            display: inline-block;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 0.75rem 1rem;
-            margin: 0.5rem 0;
-            text-decoration: none;
-            color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            width: 100%;
-        }
-        .doc-link:hover {
-            border-color: var(--accent);
-            background: var(--accent-dim);
-            transform: translateX(4px);
-        }
-        .doc-icon {
-            display: inline-block;
-            width: 28px;
-            text-align: center;
-            margin-right: 12px;
-        }
-
-        .download-note {
-            font-size: 0.75rem;
-            text-align: center;
-            margin-top: 1rem;
-            color: var(--text-dim);
-        }
 
         .contact-cta { text-align: center; padding: 4rem 2rem; background: var(--surface); border: 1px solid var(--border); margin: 2rem 0; }
         footer { padding: 4rem 0; display: flex; justify-content: center; align-items: center; border-top: 1px solid var(--border); }
@@ -141,8 +110,7 @@
         }
     </style>
     <!-- GoatCounter analytics -->
-    <script data-goatcounter="https://aniketmukherjee.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://aniketmukherjee.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -150,10 +118,8 @@
         <div class="nav-content">
             <div class="mono text-main brand-name">Aniket Mukherjee</div>
             <div class="nav-links mono">
-                <a href="#methodology">Leadership</a>
-                <a href="#capabilities">Capabilities</a>
-                <a href="#transformations">Transformations</a>
-                <a href="#docs">Enterprise Docs</a>
+                <a href="#methodology">Philosophy</a>
+                <a href="#software">Ecosystem</a>
                 <a href="#experience">Experience</a>
                 <a href="#contact">Contact</a>
                 <a href="Final%20CV%202026_CT.pdf" target="_blank" class="nav-resume">Resume ↘</a>
@@ -163,13 +129,13 @@
 
     <main class="container">
         <section class="hero">
-            <span class="mono section-label">Creative Operations & Production Technology Leader</span>
+            <span class="mono section-label">Creative Operations & Systems Architect</span>
             <h1>17 Years of Production.<br><span class="text-accent">Enterprise-Scale Execution.</span></h1>
 
-            <p>I convert high-pressure broadcast and enterprise media production into disciplined, scalable delivery systems. By combining creative operations leadership with purpose-built automation, I accelerate production velocity without compromising editorial governance or brand quality.</p>
+            <p>I convert high-pressure broadcast and enterprise media production into disciplined, scalable delivery systems. Anchored by over a decade of hands-on video production expertise, I now leverage LLM-accelerated engineering to architect proprietary desktop software and AI-driven media pipelines that eliminate manual friction.</p>
 
             <div class="btn-group mono" style="margin-top: 2rem;">
-                <a href="#transformations" class="btn">View Operational Impact</a>
+                <a href="#software" class="btn">Explore My Software Ecosystem</a>
                 <a href="#methodology" class="btn btn-outline">Read Methodology</a>
             </div>
         </section>
@@ -179,17 +145,17 @@
             <h2>The Scaled Creative</h2>
             <div class="grid-2">
                 <div>
-                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Workflow Over Headcount</h3>
-                    <p class="text-dim" style="font-size: 0.95rem;">I identify where a production process is slow, inconsistent, or dependent on external vendors, and redesign it. Through standardized pipelines and targeted automation, I expand creative capability without increasing organizational complexity.</p>
+                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Domain Mastery First</h3>
+                    <p class="text-dim" style="font-size: 0.95rem;">Before I built systems, I built the assets. My foundation is 17 years of hands-on, zero-error broadcast graphics and motion design. I engineer solutions that solve exact, real-world production bottlenecks because I have lived them on the floor.</p>
                 </div>
                 <div>
-                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Client & Stakeholder Partnership</h3>
-                    <p class="text-dim" style="font-size: 0.95rem;">Acting as a direct, consultative partner to global stakeholders, I translate complex business requirements into actionable production plans. I bridge the gap between creative vision and enterprise realities.</p>
+                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">LLM-Accelerated Engineering</h3>
+                    <p class="text-dim" style="font-size: 0.95rem;">I use Large Language Models (LLMs) as a high-velocity development multiplier. This allows me to bridge the gap between deep creative expertise and principal-level systems architecture, deploying complex native Swift and Python applications independently.</p>
                 </div>
                 <div style="grid-column: 1 / -1;">
                     <div class="card" style="border-color: var(--accent); background: var(--accent-dim);">
-                        <h3 class="mono text-main" style="font-size: 1rem; margin-bottom: 1rem;">Human-Centred AI Adoption</h3>
-                        <p class="text-dim" style="font-size: 0.95rem;">Technology is applied only where it demonstrably improves operational capability. I architect AI-assisted pipelines to eliminate manual operational bleed, ensuring that final editorial judgment and creative control remain strictly with the human operator.</p>
+                        <h3 class="mono text-main" style="font-size: 1rem; margin-bottom: 1rem;">Workflow Over Headcount & Human-Centric AI</h3>
+                        <p class="text-dim" style="font-size: 0.95rem;">I expand creative capability without increasing organizational complexity. I architect AI-assisted pipelines—like local speech denoising and procedural animation—to eliminate manual operational bleed, ensuring that final editorial judgment always remains strictly with the human operator.</p>
                     </div>
                 </div>
             </div>
@@ -200,16 +166,16 @@
             <h2>Executive & Technical Matrix</h2>
             <div class="grid-2">
                 <div class="card" style="padding: 1.5rem;">
-                    <div class="mono text-accent" style="margin-bottom: 0.5rem;">[CREATIVE OPERATIONS]</div>
-                    <p class="text-dim">Creative Direction & Leadership<br>Production Management<br>Workflow Optimization<br>Global Brand Governance</p>
+                    <div class="mono text-accent" style="margin-bottom: 0.5rem;">[PRODUCTION EXPERTISE]</div>
+                    <p class="text-dim">17 Years Broadcast & Media<br>Zero-Error Delivery Discipline<br>Creative Operations Leadership<br>Global Brand Governance</p>
                 </div>
                 <div class="card" style="padding: 1.5rem;">
-                    <div class="mono text-accent" style="margin-bottom: 0.5rem;">[PRODUCTION TECHNOLOGY]</div>
-                    <p class="text-dim">Python 3.12 / Native PyAV<br>JavaScript (ExtendScript)<br>FFmpeg Orchestration<br>Workflow Automation</p>
+                    <div class="mono text-accent" style="margin-bottom: 0.5rem;">[SYSTEMS ARCHITECTURE]</div>
+                    <p class="text-dim">Python 3.12 / Swift 6.3<br>LLM-Assisted Development<br>SQLite Schema Design<br>FFmpeg Orchestration</p>
                 </div>
                 <div class="card" style="padding: 1.5rem;">
                     <div class="mono text-accent" style="margin-bottom: 0.5rem;">[ENTERPRISE DEPLOYMENT]</div>
-                    <p class="text-dim">Standalone Compilation (Nuitka)<br>Air-Gapped Environment Delivery<br>Asset Lifecycle Management<br>Pipeline Engineering</p>
+                    <p class="text-dim">Standalone Nuitka Packaging<br>Zero-Dependency App Bundles<br>Air-Gapped Local Processing<br>Cross-Platform Path Handling</p>
                 </div>
                 <div class="card" style="padding: 1.5rem;">
                     <div class="mono text-accent" style="margin-bottom: 0.5rem;">[CREATIVE APPLICATIONS]</div>
@@ -218,116 +184,67 @@
             </div>
         </section>
 
-        <section id="transformations" class="reveal">
-            <span class="mono section-label">// Operational Transformation 01</span>
-            <h2 style="margin-bottom: 0.5rem;">Enterprise Media Platform: Subtitle Studio v5</h2>
-            <p class="text-dim" style="margin-bottom: 3rem; max-width: 700px;">A proprietary, air-gapped production engine built to replace fragmented video processing vendors and "Shadow IT" converters with a unified, secure, offline-first pipeline.</p>
-
-            <div class="card mono" style="background: #050505; border: 1px solid var(--border); overflow-x: auto; padding: 2rem; margin: 2.5rem 0;">
-                <div style="color: var(--accent); margin-bottom: 1.5rem;">// STANDALONE_ARCHITECTURE.sys</div>
-                <div style="color: var(--text-dim); line-height: 1.8; white-space: pre;">
-[ ENTERPRISE HOST OS (Air-Gapped / Restricted) ]
-  │
-  └── [ SubtitleStudio_v5.exe ] (Compiled via Nuitka)
-       ├── Python 3.12 Runtime  (Bundled, zero-install)
-       ├── Native Media Core    (av.libs, FFmpeg demuxing)
-       ├── AI Models            (Local pyrnnoise binaries)
-       └── Custom Audio Path    (denoise_chunk logic)
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <h3 class="mono text-main" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Rapid Business Solution</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Independently conceived, architected, and deployed a fully offline, enterprise-ready media platform within a <strong>30-day window</strong> to solve critical operational bottlenecks.</p>
-            </div>
-
-            <div class="timeline-item">
-                <h3 class="mono text-main" style="font-size: 1.1rem; margin-bottom: 0.5rem;">Security & Zero IT Overhead</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Resolved complex Nuitka packaging constraints to ensure full standalone portability. Converted specialist subtitle production into an accessible workflow deployed across restricted enterprise environments with zero IT installation required.</p>
-            </div>
-
-            <div class="timeline-item" style="border-left-color: var(--accent);">
-                <div class="mono text-accent" style="margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em;">[THE STRATEGIC PIVOT]</div>
-                <h3 class="mono text-main" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Democratizing Production Capabilities</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Integrated local AI vocal isolation (pyrnnoise) to eliminate the reliance on commoditized, third-party transcription engines. Unified transcoding, compression, and AI extraction to safeguard enterprise IP while drastically accelerating turnaround times.</p>
-            </div>
-        </section>
-
-        <section class="reveal">
-            <span class="mono section-label">// Operational Transformation 02</span>
-            <h2 style="margin-bottom: 0.5rem;">Proprietary Studio Automation Suite</h2>
-            <p class="text-dim" style="margin-bottom: 3rem; max-width: 700px;">A bespoke ecosystem of custom ExtendScript architectures designed to eliminate manual animation tasks, standardize global handoffs, and protect timeline integrity across the creative team.</p>
-
-            <div class="card mono" style="background: #050505; border: 1px solid var(--border); overflow-x: auto; padding: 2rem; margin: 2.5rem 0;">
-                <div style="color: var(--accent); margin-bottom: 1.5rem;">// AFTER_EFFECTS_ORCHESTRATION.config</div>
-                <div style="color: var(--text-dim); line-height: 1.8; white-space: pre;">
-[ ADOBE AFTER EFFECTS DOM ]
-  │
-  ├── Procedural_Karaoke.jsx (Dual-SRT data ingestion)
-  ├── Vector_Rigger.jsx      (SVG coordinate parsing)
-  └── Asset_Tracker.jsx      (Global project traversal)
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="mono text-accent" style="margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em;">[EFFICIENCY AT SCALE]</div>
-                <h3 class="mono text-main" style="font-size: 1.25rem; margin-bottom: 0.5rem;">95% Reduction in Manual Animation</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Built a data-driven typography engine for karaoke-style captioning that cross-references dual-SRT data streams, generating word-level synchronized animation instantly—completely removing hours of manual keyframing from the production pipeline.</p>
-            </div>
-
-            <div class="timeline-item">
-                <div class="mono text-accent" style="margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em;">[STANDARDIZED EXECUTION]</div>
-                <h3 class="mono text-main" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Automated Rigging Logic</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Engineered an automated pipeline that parses raw SVG coordinate data to generate complex mechanical hierarchies, ensuring strict visual consistency and error-free execution across all 2D assets handled by the wider creative team.</p>
-            </div>
-
-            <div class="timeline-item" style="border-left-color: var(--border);">
-                <div class="mono text-accent" style="margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em;">[ENTERPRISE GOVERNANCE]</div>
-                <h3 class="mono text-main" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Asset Dependency & Project Lifecycle</h3>
-                <p class="text-dim" style="font-size: 0.95rem;">Developed a custom tracker that dynamically traverses complex project hierarchies, eliminating project bloat and standardizing file handoffs between global motion designers to ensure long-term archive stability.</p>
-            </div>
-        </section>
-
-        <!-- Subtitle Studio Engineering Documentation -->
-        <section id="docs" class="reveal">
-            <span class="mono section-label">// Open Architecture</span>
-            <h2>Product Documentation</h2>
-            <p class="text-dim" style="margin-bottom: 2rem;">A look into the strategic product roadmap and engineering discipline underlying my enterprise deployments.</p>
+        <section id="software" class="reveal">
+            <span class="mono section-label">// Operational Transformation</span>
+            <h2 style="margin-bottom: 0.5rem;">Proprietary Software Ecosystem</h2>
+            <p class="text-dim" style="margin-bottom: 3rem; max-width: 700px;">To protect IP and eliminate cloud-dependency friction in restricted enterprise environments, I independently architected a suite of zero-install desktop media applications.</p>
 
             <div class="grid-2">
+                <!-- AVT Suite -->
                 <div class="card">
-                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">📄 Product & Process</h3>
-                    <a href="subtitle-studio-docs/PROJECT_README.md" download="PROJECT_README.md" class="doc-link">
-                        <span class="doc-icon">📖</span> PROJECT_README.md – Business Case
-                    </a>
-                    <a href="subtitle-studio-docs/V6_ROADMAP.md" download="V6_ROADMAP.md" class="doc-link">
-                        <span class="doc-icon">🗺️</span> V6_ROADMAP.md – Strategic Priorities
-                    </a>
-                    <a href="subtitle-studio-docs/DEV_JOURNAL.md" download="DEV_JOURNAL.md" class="doc-link">
-                        <span class="doc-icon">📓</span> DEV_JOURNAL.md – Release Disciplines
-                    </a>
-                    <a href="subtitle-studio-docs/subtitle_studio_ui_preview.png" download="subtitle_studio_ui_preview.png" class="doc-link">
-                        <span class="doc-icon">🖼️</span> UI Preview – Operational Interface
-                    </a>
+                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">AVT Suite (Aniket's Video Tools)</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="app-badge mono">Python</span><span class="app-badge mono">PyTorch</span><span class="app-badge mono">FFmpeg</span>
+                    </div>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A local, offline media-processing workstation replacing command-line FFmpeg operations, manual audio normalization, and third-party subtitle converters.</p>
+                    <ul class="text-dim" style="font-size: 0.85rem; padding-left: 1rem; line-height: 1.5;">
+                        <li style="margin-bottom: 0.5rem;">Integrates <strong>DeepFilterNet3</strong> and PyTorch natively for local, AI-assisted audio denoising and EBU loudness normalization.</li>
+                        <li style="margin-bottom: 0.5rem;">Handles HDR-to-SDR tone mapping, video compression, and multi-format subtitle conversion (`.srt`, `.vtt`, `.ass`, `.stl`).</li>
+                        <li>Delivered as a standalone Nuitka `.app` bundle requiring zero end-user runtime installations (no Python, pip, or Homebrew needed).</li>
+                    </ul>
                 </div>
+
+                <!-- Global RMS -->
                 <div class="card">
-                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">🏗️ Architectural Highlights</h3>
-                    <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">
-                        • Air‑gapped, Nuitka‑compiled Windows app<br>
-                        • Local AI vocal isolation integration<br>
-                        • Custom ASS subtitle burner (merged backgrounds)<br>
-                        • Multi‑output export planner (video + audio + subtitles)<br>
-                        • Automated full test suite & runtime manifest
-                    </p>
-                    <p class="text-dim" style="font-size: 0.8rem; margin-top: 1rem;">
-                        ⬤ Built specifically for highly restricted enterprise environments.<br>
-                        ⬤ Source code remains proprietary to ensure IP protection.<br>
-                        ⬤ Documentation validates systems thinking and deployment rigor.
-                    </p>
+                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">Global RMS</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="app-badge mono">Python</span><span class="app-badge mono">SQLite</span><span class="app-badge mono">CustomTkinter</span>
+                    </div>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A local-first desktop Review Management System built to replace chaotic spreadsheet/email-based QC with a governed, offline package loop.</p>
+                    <ul class="text-dim" style="font-size: 0.85rem; padding-left: 1rem; line-height: 1.5;">
+                        <li style="margin-bottom: 0.5rem;">Establishes traceability across a 14-step review chain: project → processor QC → reviewer feedback → resolution.</li>
+                        <li style="margin-bottom: 0.5rem;">Uses a SQLite persistence layer with strict foreign-key enforcement and frame-aware timecode validation.</li>
+                        <li>Employs a non-destructive filesystem design that provisions missing task folders without mutating existing assets.</li>
+                    </ul>
                 </div>
-            </div>
-            <div class="download-note">
-                ⬇️ Tap any link to download the file directly to your device.
+
+                <!-- Subtitle Studio v6 -->
+                <div class="card">
+                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">Subtitle Studio v6</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="app-badge mono">Python</span><span class="app-badge mono">AVFoundation</span><span class="app-badge mono">MPV</span>
+                    </div>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A stateful, cross-platform video editing tool for loading media, frame-accurate cue timing, section management, and multi-format deliverable export.</p>
+                    <ul class="text-dim" style="font-size: 0.85rem; padding-left: 1rem; line-height: 1.5;">
+                        <li style="margin-bottom: 0.5rem;">Consolidates subtitle editors, video players, and audio-denoise utilities into one thread-safe GUI.</li>
+                        <li style="margin-bottom: 0.5rem;">Features a custom ASS rendering engine for merged backgrounds and precision alignment previewing.</li>
+                        <li>Safe macOS architecture utilizes AVFoundation for timing, passing BGRA frames through `AVPlayerItemVideoOutput` directly to the UI.</li>
+                    </ul>
+                </div>
+
+                <!-- OmniPlayer -->
+                <div class="card">
+                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">OmniPlayer v0.7.0</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="app-badge mono">Swift 6</span><span class="app-badge mono">AVKit</span><span class="app-badge mono">AppKit</span>
+                    </div>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A native Apple Silicon macOS desktop player built to eliminate the manual identification and conversion of unsupported Apple codecs.</p>
+                    <ul class="text-dim" style="font-size: 0.85rem; padding-left: 1rem; line-height: 1.5;">
+                        <li style="margin-bottom: 0.5rem;">Automatically probes and transparently converts non-native media (like QuickTime `qtrle`) via bundled FFmpeg binaries.</li>
+                        <li style="margin-bottom: 0.5rem;">Preserves crucial alpha transparency by converting to ProRes 4444 seamlessly in the background.</li>
+                        <li>Eliminates multi-step review processes, replacing external transcoding workflows with a single drag-and-drop operation.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -341,7 +258,7 @@
                         <li style="margin-bottom: 1.5rem;">
                             <strong style="color: var(--text-main); display: block;">Senior Associate & Studio Lead</strong>
                             <span class="text-accent mono" style="font-size: 0.8rem;">PwC SDC Kolkata | 2024 — Present</span>
-                            <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">Leading enterprise creative production end-to-end. Hold sole ownership of delivery, stakeholder communication, and production quality, replacing external vendor dependencies through proprietary automation frameworks.</p>
+                            <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">Leading enterprise creative production end-to-end. Hold sole ownership of delivery, stakeholder communication, and production quality, replacing external vendor dependencies through proprietary software frameworks.</p>
                         </li>
                         <li style="margin-bottom: 1.5rem;">
                             <strong style="color: var(--text-main); display: block;">Creative Lead, UK Video & Animation</strong>
@@ -351,7 +268,7 @@
                         <li>
                             <strong style="color: var(--text-main); display: block;">17 Years in Motion & Media</strong>
                             <span class="text-accent mono" style="font-size: 0.8rem;">2008 — Present</span>
-                            <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">Single-handedly designed national and regional broadcast graphics for major networks (CNN-News18, Focus Bangla) establishing the zero-error discipline that underpins my current leadership.</p>
+                            <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">Single-handedly designed national and regional broadcast graphics for major networks (CNN-News18, Focus Bangla) establishing the deep, hands-on discipline that informs my technical architecture today.</p>
                         </li>
                     </ul>
                 </div>
@@ -375,19 +292,17 @@
                 </div>
             </div>
 
-            <!-- VIMEO SHOWCASE ADDITION -->
+            <!-- VIMEO SHOWCASE -->
             <div class="card" style="margin-top: 2rem; border-color: var(--accent); background: var(--accent-dim); text-align: center; padding: 3rem 2rem;">
                 <div class="mono text-accent" style="margin-bottom: 1rem; letter-spacing: 0.1em;">[ VISUAL PROOF OF EXECUTION ]</div>
                 <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">The Creative Foundation</h3>
                 <p class="text-dim" style="max-width: 600px; margin: 0 auto 2rem;">
-                    Before architecting the pipelines that run global studios, I spent over a decade executing at the highest levels of zero-error broadcast and enterprise media. My leadership is rooted in a deep, hands-on mastery of the craft.
+                    Before architecting the pipelines that run global studios, I spent over a decade executing at the highest levels of zero-error broadcast and enterprise media. My software engineering is rooted in a deep, hands-on mastery of the craft.
                 </p>
                 <a href="https://vimeo.com/showcase/12012098" target="_blank" class="btn mono" style="background: var(--accent); color: var(--bg); border-color: var(--accent);">
                     View Production Showcase ↗
                 </a>
             </div>
-            <!-- END VIMEO SHOWCASE ADDITION -->
-
         </section>
 
         <section id="contact" class="reveal">
@@ -395,7 +310,7 @@
                 <span class="mono section-label">Let's Connect</span>
                 <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Scaling Creative Capability.</h3>
                 <p class="text-dim" style="max-width: 600px; margin: 0 auto 3rem;">
-                    My focus is on architecting the workflows, building the teams, and engineering the systems required to protect creative talent and secure enterprise IP. If you are looking to scale your production operations without losing editorial control, let's talk.
+                    My focus is on architecting the workflows, building the tools, and engineering the systems required to protect creative talent and secure enterprise IP. If you are looking to scale your production operations with AI-driven pipelines, let's talk.
                 </p>
                 <div class="btn-group" style="justify-content: center;">
                     <a href="mailto:aniket.mu86@gmail.com" class="btn mono">Email Me</a>
