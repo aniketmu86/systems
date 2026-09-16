@@ -98,6 +98,39 @@
         .timeline-item:last-child::before { display: none; }
         .timeline-item::after { content: ""; position: absolute; left: -4px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
 
+        .doc-link {
+            display: inline-block;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .doc-link:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+            transform: translateX(4px);
+        }
+        .doc-icon {
+            display: inline-block;
+            width: 28px;
+            text-align: center;
+            margin-right: 12px;
+        }
+
+        .download-note {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-dim);
+        }
+
         .contact-cta { text-align: center; padding: 4rem 2rem; background: var(--surface); border: 1px solid var(--border); margin: 2rem 0; }
         footer { padding: 4rem 0; display: flex; justify-content: center; align-items: center; border-top: 1px solid var(--border); }
 
@@ -120,6 +153,7 @@
             <div class="nav-links mono">
                 <a href="#methodology">Philosophy</a>
                 <a href="#software">Ecosystem</a>
+                <a href="#docs">Enterprise Docs</a>
                 <a href="#experience">Experience</a>
                 <a href="#contact">Contact</a>
                 <a href="Final%20CV%202026_CT.pdf" target="_blank" class="nav-resume">Resume ↘</a>
@@ -234,17 +268,60 @@
 
                 <!-- OmniPlayer -->
                 <div class="card">
-                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">OmniPlayer v0.7.0</h3>
+                    <h3 class="mono text-main" style="font-size: 1.15rem; margin-bottom: 0.5rem;">OmniPlayer v1.0.0</h3>
                     <div style="margin-bottom: 1rem;">
-                        <span class="app-badge mono">Swift 6</span><span class="app-badge mono">AVKit</span><span class="app-badge mono">AppKit</span>
+                        <span class="app-badge mono">Swift 6.3</span><span class="app-badge mono">AVFoundation</span><span class="app-badge mono">Core Animation</span>
                     </div>
-                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A native Apple Silicon macOS desktop player built to eliminate the manual identification and conversion of unsupported Apple codecs.</p>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-bottom: 1rem;">A native Apple Silicon macOS desktop player built to eliminate the manual identification and conversion of unsupported codecs.</p>
                     <ul class="text-dim" style="font-size: 0.85rem; padding-left: 1rem; line-height: 1.5;">
-                        <li style="margin-bottom: 0.5rem;">Automatically probes and transparently converts non-native media (like QuickTime `qtrle`) via bundled FFmpeg binaries.</li>
-                        <li style="margin-bottom: 0.5rem;">Preserves crucial alpha transparency by converting to ProRes 4444 seamlessly in the background.</li>
-                        <li>Eliminates multi-step review processes, replacing external transcoding workflows with a single drag-and-drop operation.</li>
+                        <li style="margin-bottom: 0.5rem;">Intercepts live PCM audio via <strong>MTAudioProcessingTap</strong> for 30Hz real-time Core Animation visualization without dropping frames.</li>
+                        <li style="margin-bottom: 0.5rem;">Automatically probes and transparently converts non-native media (like QuickTime <code>qtrle</code>) into ProRes 4444 via bundled FFmpeg binaries.</li>
+                        <li>Packaged via a fully automated release hardening pipeline that generates versioned ZIPs, SHA-256 checksums, and architecture validation.</li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <section id="docs" class="reveal">
+            <span class="mono section-label">// Open Architecture</span>
+            <h2>Product Documentation</h2>
+            <p class="text-dim" style="margin-bottom: 2rem;">A look into the strategic product roadmap and engineering discipline underlying my enterprise deployments.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">📄 Product & Process</h3>
+                    <a href="subtitle-studio-docs/PROJECT_README.md" download="PROJECT_README.md" class="doc-link">
+                        <span class="doc-icon">📖</span> PROJECT_README.md – Business Case
+                    </a>
+                    <a href="subtitle-studio-docs/V6_ROADMAP.md" download="V6_ROADMAP.md" class="doc-link">
+                        <span class="doc-icon">🗺️</span> V6_ROADMAP.md – Strategic Priorities
+                    </a>
+                    <a href="subtitle-studio-docs/DEV_JOURNAL.md" download="DEV_JOURNAL.md" class="doc-link">
+                        <span class="doc-icon">📓</span> DEV_JOURNAL.md – Release Disciplines
+                    </a>
+                    <a href="subtitle-studio-docs/OMNIPLAYER_V1_ARCHITECTURE.md" download="OMNIPLAYER_V1_ARCHITECTURE.md" class="doc-link">
+                        <span class="doc-icon">⚙️</span> OMNIPLAYER_V1_ARCHITECTURE.md – Systems Deep Dive
+                    </a>
+                    <a href="subtitle-studio-docs/subtitle_studio_ui_preview.png" download="subtitle_studio_ui_preview.png" class="doc-link">
+                        <span class="doc-icon">🖼️</span> UI Preview – Operational Interface
+                    </a>
+                </div>
+                <div class="card">
+                    <h3 class="mono text-main" style="font-size: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">🏗️ Architectural Highlights</h3>
+                    <p class="text-dim" style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        • Built specifically for highly restricted enterprise environments.<br>
+                        • LLM-accelerated standalone Python & Swift compilation.<br>
+                        • Local AI vocal isolation integration.<br>
+                        • Automated full test suite & runtime manifest generation.
+                    </p>
+                    <p class="text-dim" style="font-size: 0.8rem; margin-top: 1rem;">
+                        ⬤ Source code remains proprietary to ensure IP protection.<br>
+                        ⬤ Documentation validates systems thinking and deployment rigor.
+                    </p>
+                </div>
+            </div>
+            <div class="download-note">
+                ⬇️ Tap any link to download the file directly to your device.
             </div>
         </section>
 
